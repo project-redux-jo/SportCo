@@ -11,6 +11,8 @@ import ForgotPassword from "./components/LogIn/ForgotPassword"
 import LoginLord from "./components/LoginLord/LoginLord"
 import Bookingcard from "./components/ReservationPage/bookingcard"
 import CheckoutForm from "./components/Payment/Payment"
+import Stadiums from "./components/Stadiums/Stadiums"
+import Reservation from "./components/ReservationPage/ReservationPage"
 
 function App() {
 
@@ -26,13 +28,18 @@ function App() {
       // </Router>
       // <LoginPage/>
       <Router>
+       <Navbar />
+
       <Routes>
+     <Route path="/" element = {<Home />}></Route>
+
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/ForgotPassword" element={<ForgotPassword/>} />
       <Route path="/LoginLord" element={<LoginLord />}/>
-      <Route path="/reservation" element={<Bookingcard />}/>
+      <Route path="/reservation" element={<Reservation />}/>
       <Route path="/payment" element={<CheckoutForm />}/>
+      <Route path="/stadiums" element={<Stadiums />}/>
 
     </Routes></Router>
   )
