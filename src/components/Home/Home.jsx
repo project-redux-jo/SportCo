@@ -148,7 +148,7 @@ function Home() {
                     your playgrounds.
                   </p>
                 </div>
-                <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center items-center gap-10 mx-auto">
+                {/* <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center items-center gap-10 mx-auto"> */}
                   <div className="flex flex-col items-center">
                     <CreditCard size={40} className="text-[#A9C46C] mb-4" />
                     <h3 className="text-xl font-semibold text-gray-900">
@@ -168,7 +168,7 @@ function Home() {
                       manage bookings.
                     </p>
                   </div>
-                </div>
+               
                 <div className="flex flex-col items-center">
                   <FontAwesomeIcon
                     icon={faStar}

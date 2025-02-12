@@ -29,7 +29,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/about" className="hover:text-gray-300 transition">
+            <Link to="/Aboutus" className="hover:text-gray-300 transition">
               About
             </Link>
           </li>
