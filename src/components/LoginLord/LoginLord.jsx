@@ -1,91 +1,64 @@
 import React, { useState } from "react";
+
+import { auth ,signInWithEmailAndPassword } from "../../firebase";
+import api from "../../api";
 import { useDispatch } from "react-redux";
-import { registerLandlord } from "../../redux/sliceLandlord";
+// import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
-const LoginLord = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    profileImagePath: "", // ✅ حفظ مسار الصورة فقط
-    extraImagePath: "",   // ✅ حفظ مسار الصورة فقط
-    location: "",
-  });
-
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    dispatch(registerLandlord(formData)).then((result) => {
-      if (result.meta.requestStatus === "fulfilled") {
-        navigate("/login");
+      // Get user role and status from Firebase using Axios
+      const response = await api.get(`/Landlords/${user.uid}.json`);
+      const userData = response.data;
+
+      if (!userData) {
+        console.error("User data not found.");
+        return;
       }
-    });
+
+      if (userData.status === "pending") {
+        alert("Your application is still under review.");
+        console.log("Your application is still under review.")
+        return;
+      }
+      if (userData.status === "Rejected") {
+        alert("Your application has been rejected.");
+        console.log("Your application has been rejected.")
+        return;
+      }
+      // Dispatch login state to Redux
+    //   dispatch(login({ userId: user.uid, role: userData.role }));
+
+      if (userData.status === "Approved") {
+
+        navigate("/landlord-panel");
+      }
+    } catch (error) {
+      console.error("Login Error:", error.message);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <input
-        type="text"
-        name="fullName"
-        value={formData.fullName}
-        onChange={handleChange}
-        placeholder="Full Name"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <input
-        type="text"
-        name="phone"
-        value={formData.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <input
-        type="text"
-        name="profileImagePath"
-        value={formData.profileImagePath}
-        onChange={handleChange}
-        placeholder="Profile Image Path (e.g., /img/profile.png)"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <input
-        type="text"
-        name="extraImagePath"
-        value={formData.extraImagePath}
-        onChange={handleChange}
-        placeholder="Extra Image Path (e.g., /img/extra.png)"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <input
-        type="text"
-        name="location"
-        value={formData.location}
-        onChange={handleChange}
-        placeholder="Location (e.g., Amman, Irbid, Zarqa)"
-        className="w-full px-4 py-2 border rounded-lg"
-      />
-      <button type="submit" className="w-full py-2 bg-green-500 text-white rounded-lg">
-        Sign Up
-      </button>
-    </form>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <form onSubmit={handleLogin} className="flex flex-col space-y-3">
+        <input type="email" placeholder="Email" className="p-2 border" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" className="p-2 border" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <button type="submit" className="bg-blue-500 text-white p-2">Login</button>
+      </form>
+    </div>
   );
 };
 
-export default LoginLord;
+export default Login;

@@ -58,7 +58,7 @@ const Navbar = () => {
             </button>
           </Link>
           <Link
-            to="/loginlord"
+            to="/SignUpLord"
             className="text-white font-medium hover:text-gray-300 transition"
           >
             For Owners
