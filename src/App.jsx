@@ -1,9 +1,9 @@
-import {BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import Navbar from "./components/navbar"
-import Footer from "./components/footer"
-import Home from "./components/Home/Home"
-import Aboutus from "./components/AboutUs/Aboutus"
-import Contactus from "./components/ContactUs/Contactus"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+import Home from "./components/Home/Home";
+import Aboutus from "./components/AboutUs/Aboutus";
+import Contactus from "./components/ContactUs/Contactus";
 // import SignUp from "./components/SignUp/SignUp"
 import LoginPage from "./components/LogIn/Login"
 import SignUp from "./components/SignUp/SignUp"
@@ -15,7 +15,6 @@ import Stadiums from "./components/Stadiums/Stadiums"
 import Reservation from "./components/ReservationPage/ReservationPage"
 
 function App() {
-
   return (
       // <Router>
       //   <Navbar />
@@ -45,4 +44,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
