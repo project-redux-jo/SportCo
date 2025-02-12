@@ -14,6 +14,7 @@ import Stadiums from "./components/Stadiums/Stadiums";
 import Reservation from "./components/ReservationPage/ReservationPage";
 import Contactus from "./components/ContactUs/Contactus";
 import Wishlist from "./components/Wishlist/Wishlist";
+import SignUpLandlord from "./components/LoginLord/SignUpLord";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
+        <Route path="/SignUpLord" element={<SignUpLandlord />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
