@@ -1,9 +1,5 @@
 import React from "react";
-
 import {Router, Route, Routes } from "react-router-dom";
-// import LandlordApplications from "./LandlordApplications";
-// import DashboardOverview from "./DashboardOverview";
-// import ListingApproval from "./ListingApprovals";
 import SidebarLord from "./SidebarLord";
 import PropertyManagement from "./PropertyManagement";
 import LandlordCalendar from "./LandlordCalendar";
@@ -26,8 +22,6 @@ const  LandDashboard = () => {
           <Route path="/BookingManagement" element={<BookingManagement/>}/>
           <Route path="/Analytics" element={<Analytics/>}/>
           <Route path="/Profile" element={<Profile/>}/>
-          {/* <Route path="landlord-applications" element={<LandlordApplications />}/>
-          <Route path="listing-approvals" element={<ListingApproval/>}/> */}
           </Routes>
         </main>
       </div>
