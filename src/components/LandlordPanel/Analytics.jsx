@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ReactApexChart from "react-apexcharts";
-
+import api from "../../api";
 const Analytics = () => {
   // Get the current user from Redux store
-  const currentUser = useSelector((state) => state.auth.user);
+  const currentUser = useSelector((state) => state.Land.user);
 
   // State to manage analytics data
   const [analyticsData, setAnalyticsData] = useState([]);
@@ -20,8 +20,8 @@ const Analytics = () => {
   // Fetch analytics data for the landlord's properties
   const fetchAnalyticsData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/analytics?landlordId=${currentUser.uid}`
+      const response = await api.get(
+        `/Stadiums${currentUser.uid}`
       );
       setAnalyticsData(response.data);
     } catch (error) {

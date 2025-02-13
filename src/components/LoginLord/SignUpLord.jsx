@@ -97,7 +97,11 @@ const SignUpLandlord = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       await api.patch(`/Landlords/${user.uid}.json`, {
@@ -122,20 +126,69 @@ const SignUpLandlord = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-bold mb-4">Register as Landlord</h2>
       <form onSubmit={handleSignup} className="flex flex-col space-y-3">
-        <input type="text" placeholder="Full Name" className="p-2 border" value={name} onChange={(e) => setName(e.target.value)} required />
-        <input type="email" placeholder="Email" className="p-2 border" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="tel" placeholder="Phone Number" className="p-2 border" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-        <select className="p-2 border" value={location} onChange={(e) => setLocation(e.target.value)} required>
-          <option value="" hidden>Location</option>
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="p-2 border"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          className="p-2 border"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="p-2 border"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          required
+        />
+        <select
+          className="p-2 border"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          required
+        >
+          <option value="" hidden>
+            Location
+          </option>
           <option value="Zarqa">Zarqa</option>
           <option value="Irbid">Irbid</option>
           <option value="Amman">Amman</option>
         </select>
-        <input type="file" accept="image/*" onChange={handleImageChange} className="p-2 border" required />
-        <input type="password" placeholder="Password" className="p-2 border" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit" className="bg-blue-500 text-white p-2">Register</button>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="p-2 border"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="p-2 border"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2">
+          Register
+        </button>
       </form>
-      {imageBase64 && <img src={imageBase64} alt="Preview" className="mt-4 w-32 h-32 object-cover" />}
+      {imageBase64 && (
+        <img
+          src={imageBase64}
+          alt="Preview"
+          className="mt-4 w-32 h-32 object-cover"
+        />
+      )}
     </div>
   );
 };

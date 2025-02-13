@@ -69,7 +69,6 @@
 
 // export default LoginPage;
 
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, User } from "lucide-react";
@@ -89,17 +88,21 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }))
-      .unwrap()
-      .then(() => navigate("/"))
-      .catch(() => {});
+    try {
+      await dispatch(loginUser({ email, password })); // ✅ No .unwrap()
+      navigate("/");
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    dispatch(signUpWithGoogle())
-      .unwrap()
-      .then(() => navigate("/"))
-      .catch(() => {});
+  const handleGoogleLogin = async () => {
+    try {
+      await dispatch(signUpWithGoogle()); // ✅ No .unwrap()
+      navigate("/"); // ✅ Navigate on success
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
   };
 
   return (

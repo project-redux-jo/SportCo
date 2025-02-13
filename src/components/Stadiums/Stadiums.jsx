@@ -23,34 +23,41 @@ const dispatch=useDispatch();
      
         const response = await axios.get(url);
         const data = response.data;
+        const sentData=[];
         // console.log(data);
         const Stadiums_array=Object.values(data);
-        dispatch(fetchStadiums(Stadiums_array));
+      
+        Stadiums_array.map((d)=>{
+if(d.status==="Approved"){
+  sentData.push(d);
+}
+        })
+        dispatch(fetchStadiums(sentData));
      
     }
     getData();
-  }, []);
+  }, [FinalStadiums]);
   function getStadiumData(stadium){
 dispatch(fetchselectedCourt(stadium))
 
 ////////////// محمود ضافها
-useEffect(() => {
-  async function getData() {
-      try {
-          const response = await axios.get(url);
-          const data = response.data;
+// useEffect(() => {
+//   async function getData() {
+//       try {
+//           const response = await axios.get(url);
+//           const data = response.data;
 
-          if (data) {
-              const Stadiums_array = Object.values(data);
-              dispatch(fetchStadiums(Stadiums_array));
-          }
-      } catch (error) {
-          console.error(" فشل تحميل البيانات من Firebase:", error);
-      }
-  }
+//           if (data) {
+//               const Stadiums_array = Object.values(data);
+//               dispatch(fetchStadiums(Stadiums_array));
+//           }
+//       } catch (error) {
+//           console.error(" فشل تحميل البيانات من Firebase:", error);
+//       }
+//   }
 
-  getData();
-}, [FinalStadiums]);
+//   getData();
+// }, [FinalStadiums]);
 
 
 
@@ -158,6 +165,7 @@ console.log(selectedStadium);
           {filteredStadiums.map(stadium => (
             <div key={stadium.id} className="group bg-white rounded-2xl overflow-hidden shadow-[0_5px_15px_rgba(0,0,0,0.1)] transition-all duration-300 hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)]">
               {/* Image Container */}
+             
               <div className="relative h-64 overflow-hidden">
                 <div className="w-full h-full transform transition-transform duration-300 group-hover:scale-105">
                   <img
@@ -175,6 +183,7 @@ console.log(selectedStadium);
                   </div>
                 </div>
               </div>
+             
 
               {/* Content Container */}
               <div className="p-6">

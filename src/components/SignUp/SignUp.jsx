@@ -202,7 +202,6 @@
 // };
 
 // export default SignUp;
-
 import React, { useState } from "react";
 import { Mail, User, Phone, Lock } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
@@ -284,7 +283,7 @@ const SignUp = () => {
     }
 
     dispatch(signUpUser(formData)).then((result) => {
-      if (result.meta.requestStatus === "fulfilled") {
+      if (result && result.uid) {
         navigate("/LogIn");
       }
     });
@@ -293,8 +292,8 @@ const SignUp = () => {
   // ✅ Google Sign-up
   const handleGoogleSignUp = () => {
     dispatch(signUpWithGoogle()).then((result) => {
-      if (result.meta.requestStatus === "fulfilled") {
-        navigate("/dashboard");
+      if (result && result.uid) {
+        navigate("/");
       }
     });
   };

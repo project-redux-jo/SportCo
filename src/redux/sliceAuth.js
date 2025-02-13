@@ -390,6 +390,8 @@
 
 // export const { logout } = authSlice.actions;
 // export default authSlice.reducer;
+
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   auth,
@@ -419,23 +421,27 @@ export const signUpWithGoogle = () => async (dispatch) => {
       phone: user.phoneNumber || "",
     });
 
+    const userData = {
+      uid: user.uid,
+      fullName: user.displayName,
+      email: user.email,
+      phone: user.phoneNumber || "",
+    };
+
     dispatch({
       type: "auth/googleSignUpSuccess",
-      payload: {
-        uid: user.uid,
-        fullName: user.displayName,
-        email: user.email,
-        phone: user.phoneNumber || "",
-      },
+      payload: userData,
     });
 
     Swal.fire({
       title: "Google Sign-Up Successful!",
-      text: "Redirecting to dashboard...",
+      text: "Redirecting to HomePage...",
       icon: "success",
       timer: 2000,
       showConfirmButton: false,
     });
+
+    return userData;
   } catch (error) {
     Swal.fire("Error!", error.message, "error");
 
@@ -443,6 +449,8 @@ export const signUpWithGoogle = () => async (dispatch) => {
       type: "auth/googleSignUpFailure",
       payload: error.message,
     });
+
+    return Promise.reject(error); // ✅ Ensure errors are properly returned
   }
 };
 
@@ -460,18 +468,21 @@ export const signUpUser =
       // ✅ حفظ بيانات المستخدم في Firebase Realtime Database
       await set(ref(database, `users/${user.uid}`), { fullName, email, phone });
 
+      const userData = { uid: user.uid, fullName, email, phone };
+
       dispatch({
         type: "auth/signUpSuccess",
-        payload: { uid: user.uid, fullName, email, phone },
+        payload:  userData ,
       });
 
       Swal.fire({
         title: "Registration Successful!",
-        text: "Redirecting to login...",
+        text: "Redirecting to Homepage...",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
       });
+      return userData;
     } catch (error) {
       // ✅ إذا كان البريد الإلكتروني مستخدمًا مسبقًا
       if (error.code === "auth/email-already-in-use") {
@@ -488,6 +499,8 @@ export const signUpUser =
         type: "auth/signUpFailure",
         payload: error.message,
       });
+
+      return Promise.reject(error); // ✅ Ensure errors are properly returned
     }
   };
 
@@ -529,11 +542,13 @@ export const loginUser =
       // ✅ إشعار للمستخدم
       Swal.fire({
         title: "Login Successful!",
-        text: "Redirecting to dashboard...",
+        text: "Redirecting to HomePage...",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
       });
+
+      return userData;
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -545,6 +560,8 @@ export const loginUser =
         type: "auth/loginFailure",
         payload: error.message,
       });
+
+      return Promise.reject(error); // ✅ Ensure errors are properly returned
     }
   };
 
@@ -614,5 +631,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, loginSuccess } = authSlice.actions;
 export default authSlice.reducer;
