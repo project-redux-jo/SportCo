@@ -24,7 +24,6 @@ import AdminDashboard from "./components/DashboardAdmin/AdminDashboard";
 import PropertyManagement from "./components/LandlordPanel/PropertyManagement";
 import LandDashboard from "./components/LandlordPanel/LandDashboard";
 
-
 function App() {
   return (
     // <Router>
@@ -58,9 +57,8 @@ function App() {
         <Route path="/logout" element={<Logout />} />
 
         <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
-        <Route path="/LandDashboard/*" element={< LandDashboard />} />
-        {/* <Route path="/PropertyManagement" element={<PropertyManagement />} /> */}
-
+        <Route path="/LandDashboard/*" element={<LandDashboard />} />
+        {/* <Routes path="/PropertyManagement" element={<PropertyManagement />} /> */}
       </Routes>
       <Footer />
     </Router>
