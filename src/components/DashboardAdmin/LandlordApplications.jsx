@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../api"; // Axios instance
-import { setLandlordApplications, approveLandlordApplication, rejectLandlordApplication } from "../../redux/landlordApplicationSlice";
+import { setLandlordApplications, updateLandlordApplication } from "../../redux/landlordApplicationSlice";
 
 const LandlordApplications = () => {
   const dispatch = useDispatch();
   const applications = useSelector((state) => state.landlordApplications.applications);
   const [selectedApplication, setSelectedApplication] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Fetch landlord applications from Firebase
   useEffect(() => {
     const fetchApplications = async () => {
+      setLoading(true);
       try {
         const response = await api.get("/Landlords.json");
         if (response.data) {
@@ -22,29 +25,29 @@ const LandlordApplications = () => {
         }
       } catch (error) {
         console.error("Error fetching applications:", error);
+        setError("Failed to load applications. Please try again.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchApplications();
   }, [dispatch]);
 
-  // Approve an application
-  const handleApprove = async (id) => {
-    try {
-      await api.patch(`/Landlords/${id}.json`, { status: "Approved" });
-      dispatch(approveLandlordApplication(id));
-    } catch (error) {
-      console.error("Error approving application:", error);
-    }
-  };
 
-  // Reject an application
-  const handleReject = async (id) => {
+
+
+  
+  // Approve or Reject an application
+  const handleAction = async (id, status) => {
+    setLoading(true);
     try {
-      await api.patch(`/Landlords/${id}.json`, { status: "Rejected" });
-      dispatch(rejectLandlordApplication(id));
+      await api.patch(`/Landlords/${id}.json`, { status });
+      dispatch(updateLandlordApplication({ id, status }));
     } catch (error) {
-      console.error("Error rejecting application:", error);
+      console.error(`Error updating application:`, error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +58,9 @@ const LandlordApplications = () => {
   return (
     <div className="p-6 bg-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Landlord Applications</h2>
+
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {loading && <p className="text-gray-600 mb-4">Loading applications...</p>}
 
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
@@ -77,16 +83,25 @@ const LandlordApplications = () => {
                 <td className="px-6 py-4 text-gray-700">{app.date}</td>
                 <td className="px-6 py-4 text-gray-700">{app.status}</td>
                 <td className="px-6 py-4 flex justify-center space-x-2">
-                  <button onClick={() => handlePreview(app)} className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                  <button 
+                    onClick={() => handlePreview(app)} 
+                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                     Preview
                   </button>
-                  {/* ✅ FIX: Buttons will show only if status is "Pending" */}
-                  {app.status === "pending" && (
+                  {app.status.toLowerCase() === "pending" && (
                     <>
-                      <button onClick={() => handleApprove(app.id)} className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                      <button 
+                        onClick={() => handleAction(app.id, "Approved")}
+                        disabled={loading}
+                        className={`px-3 py-1 text-white rounded ${loading ? "bg-gray-400" : "bg-green-500 hover:bg-green-600"}`}
+                      >
                         Approve
                       </button>
-                      <button onClick={() => handleReject(app.id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                      <button 
+                        onClick={() => handleAction(app.id, "Rejected")}
+                        disabled={loading}
+                        className={`px-3 py-1 text-white rounded ${loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"}`}
+                      >
                         Reject
                       </button>
                     </>
@@ -98,46 +113,48 @@ const LandlordApplications = () => {
         </table>
       </div>
 
-    {/* Preview Modal */}
-    {selectedApplication && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300">
-        <div className="bg-white p-8 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 transform transition-all duration-300 scale-95">
-          <div className="border-b pb-3 mb-4 flex justify-between items-center">
-            <h3 className="text-2xl font-bold text-gray-800">Application Preview</h3>
-            <button onClick={() => setSelectedApplication(null)} className="text-gray-500 hover:text-gray-700 text-3xl focus:outline-none">
-              &times;
-            </button>
-          </div>
-          
-          {/* Image Display */}
-          {selectedApplication?.profileImage && (
-            <div className="mb-4 flex justify-center">
-              <img 
-                src={selectedApplication.profileImage} 
-                alt="Landlord Application" 
-                className="w-100 h-40 object-cover border border-gray-300 shadow-md" 
-              />
+      {/* Preview Modal */}
+      {selectedApplication && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300">
+          <div className="bg-white p-8 rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 transform transition-all duration-300 scale-95">
+            <div className="border-b pb-3 mb-4 flex justify-between items-center">
+              <h3 className="text-2xl font-bold text-gray-800">Application Preview</h3>
+              <button onClick={() => setSelectedApplication(null)} className="text-gray-500 hover:text-gray-700 text-3xl focus:outline-none">
+                &times;
+              </button>
             </div>
-          )}
 
-          <div className="flex flex-col items-center">
-            <div className="text-center">
-              <p className="mb-2"><strong>Name:</strong> {selectedApplication.name}</p>
-              <p className="mb-2"><strong>Email:</strong> {selectedApplication.email}</p>
-              <p className="mb-2"><strong>Location:</strong> {selectedApplication.location}</p>
-              <p className="mb-2"><strong>Date:</strong> {selectedApplication.date}</p>
-              <p className="mb-2"><strong>Status:</strong> {selectedApplication.status}</p>
+            {/* Image Display */}
+            {selectedApplication?.profileImage && (
+              <div className="mb-4 flex justify-center">
+                <img 
+                  src={selectedApplication.profileImage} 
+                  alt="Landlord Application" 
+                  className="w-100 h-40 object-cover border border-gray-300 shadow-md" 
+                />
+              </div>
+            )}
+
+            <div className="flex flex-col items-center">
+              <div className="text-center">
+                <p className="mb-2"><strong>Name:</strong> {selectedApplication.name}</p>
+                <p className="mb-2"><strong>Email:</strong> {selectedApplication.email}</p>
+                <p className="mb-2"><strong>Location:</strong> {selectedApplication.location}</p>
+                <p className="mb-2"><strong>Date:</strong> {selectedApplication.date}</p>
+                <p className="mb-2"><strong>Status:</strong> {selectedApplication.status}</p>
+              </div>
             </div>
-          </div>
-          
-          <div className="mt-6 text-right">
-            <button onClick={() => setSelectedApplication(null)} className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-              Close
-            </button>
+
+            <div className="mt-6 text-right">
+              <button 
+                onClick={() => setSelectedApplication(null)} 
+                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                Close
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
     </div>
   );

@@ -112,7 +112,7 @@ const SignUpLandlord = () => {
 
       console.log("Landlord application submitted successfully!");
       alert("Your application has been submitted for review.");
-      navigate("/LogIn");
+      navigate("/LoginLord");
     } catch (error) {
       console.error("Signup Error:", error.message);
     }

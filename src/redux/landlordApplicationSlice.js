@@ -9,19 +9,15 @@ const landlordApplicationsSlice = createSlice({
     setLandlordApplications: (state, action) => {
       state.applications = action.payload;
     },
-    approveLandlordApplication: (state, action) => {
-      state.applications = state.applications.map((app) =>
-        app.id === action.payload ? { ...app, status: "Approved" } : app
-      );
-    },
-    rejectLandlordApplication: (state, action) => {
-      state.applications = state.applications.map((app) =>
-        app.id === action.payload ? { ...app, status: "Rejected" } : app
-      );
+    updateLandlordApplication: (state, action) => {
+      const { id, status } = action.payload;
+      const application = state.applications.find((app) => app.id === id);
+      if (application) {
+        application.status = status;
+      }
     },
   },
 });
 
-export const { setLandlordApplications, approveLandlordApplication, rejectLandlordApplication } =
-  landlordApplicationsSlice.actions;
+export const { setLandlordApplications, updateLandlordApplication } = landlordApplicationsSlice.actions;
 export default landlordApplicationsSlice.reducer;
