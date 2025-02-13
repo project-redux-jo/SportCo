@@ -54,6 +54,26 @@ function Home() {
       name: "Golden Ball Stadium Penta",
       position: [32.04704880147237, 36.09512434593029],
     },
+    {
+      id: 6,
+      name: "Aljmzawey courts",
+      position: [32.068184029167426, 36.074773142959764],
+    },
+    {
+      id: 7,
+      name: "Khatab Court",
+      position: [32.083348319095606, 36.08748916334725],
+    },
+    {
+      id: 8,
+      name: "Seher Alshouq",
+      position: [32.08847753364245, 36.113675371048494],
+    },
+    {
+      id: 8,
+      name: "Tarawneh Staduim",
+      position: [32.09444815587646, 36.07893494685292],
+    },
   ];
   return (
     <div>
@@ -149,26 +169,26 @@ function Home() {
                   </p>
                 </div>
                 {/* <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center items-center gap-10 mx-auto"> */}
-                  <div className="flex flex-col items-center">
-                    <CreditCard size={40} className="text-[#A9C46C] mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Secure and multiple payment
-                    </h3>
-                    <p className="text-gray-600 mt-2">
-                      Multiple payment options.
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <CalendarCheck size={40} className="text-[#A9C46C] mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Easy booking management
-                    </h3>
-                    <p className="text-gray-600 mt-2">
-                      An application that makes it easy for playground owners to
-                      manage bookings.
-                    </p>
-                  </div>
-               
+                <div className="flex flex-col items-center">
+                  <CreditCard size={40} className="text-[#A9C46C] mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    Secure and multiple payment
+                  </h3>
+                  <p className="text-gray-600 mt-2">
+                    Multiple payment options.
+                  </p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <CalendarCheck size={40} className="text-[#A9C46C] mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    Easy booking management
+                  </h3>
+                  <p className="text-gray-600 mt-2">
+                    An application that makes it easy for playground owners to
+                    manage bookings.
+                  </p>
+                </div>
+
                 <div className="flex flex-col items-center">
                   <FontAwesomeIcon
                     icon={faStar}
@@ -304,7 +324,7 @@ function Home() {
             transition={{ duration: 0.3 }}
           >
             <Link
-              to="/about"
+              to="/aboutus"
               className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-lg font-semibold rounded-full shadow-lg transition hover:scale-105"
             >
               Know More
@@ -374,8 +394,8 @@ function Home() {
           {/* 🗺️ Map Component */}
           <div className="w-full max-w-4xl mx-auto mt-6 h-[400px]">
             <MapContainer
-              center={[31.963158, 35.930359]} // Centered on Amman
-              zoom={8} // Adjust zoom level to show all markers
+              center={[32.07275, 36.08796]} // Centered on Amman
+              zoom={12} // Adjust zoom level to show all markers
               style={{ height: "100%", width: "100%", borderRadius: "10px" }}
             >
               {/* Tile Layer - OpenStreetMap */}
