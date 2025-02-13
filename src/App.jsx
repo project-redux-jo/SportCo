@@ -14,6 +14,11 @@ import Stadiums from "./components/Stadiums/Stadiums";
 import Reservation from "./components/ReservationPage/ReservationPage";
 import Contactus from "./components/ContactUs/Contactus";
 import Wishlist from "./components/Wishlist/Wishlist";
+import SignUpLandlord from "./components/LoginLord/SignUpLord";
+import Aboutus from "./components/AboutUs/Aboutus";
+import AdminDashboard from "./components/DashboardAdmin/AdminDashboard";
+import PropertyManagement from "./components/LandlordPanel/PropertyManagement";
+import LandDashboard from "./components/LandlordPanel/LandDashboard";
 
 function App() {
   return (
@@ -32,7 +37,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
+        <Route path="/Aboutus" element={<Aboutus/>}></Route>
+        <Route path="/SignUpLord" element={<SignUpLandlord />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
@@ -42,6 +48,9 @@ function App() {
         <Route path="/stadiums" element={<Stadiums />} />
         <Route path="/contact" element={<Contactus />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+        <Route path="/LandDashboard/*" element={< LandDashboard />} />
+        {/* <Route path="/PropertyManagement" element={<PropertyManagement />} /> */}
       </Routes>
       <Footer />
     </Router>

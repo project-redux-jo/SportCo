@@ -29,13 +29,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/about" className="hover:text-gray-300 transition">
+            <Link to="/Aboutus" className="hover:text-gray-300 transition">
               About
             </Link>
           </li>
           <li>
-            <Link to="/services" className="hover:text-gray-300 transition">
-              Services
+            <Link to="/stadiums" className="hover:text-gray-300 transition">
+              Stadiums
             </Link>
           </li>
           <li>
@@ -58,7 +58,7 @@ const Navbar = () => {
             </button>
           </Link>
           <Link
-            to="/loginlord"
+            to="/SignUpLord"
             className="text-white font-medium hover:text-gray-300 transition"
           >
             For Owners
@@ -83,8 +83,8 @@ const Navbar = () => {
           <Link to="/about" className="block text-white hover:text-gray-300">
             About
           </Link>
-          <Link to="/services" className="block text-white hover:text-gray-300">
-            Services
+          <Link to="/stadiums" className="block text-white hover:text-gray-300">
+            Stadiums
           </Link>
           <Link to="/contact" className="block text-white hover:text-gray-300">
             Contact

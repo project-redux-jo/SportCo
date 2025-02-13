@@ -170,57 +170,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth, database, ref, set, get, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, googleProvider } from "../firebase";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 
-
-
-
-
-  
-
-
-
-
-// ✅ تسجيل المستخدم الجديد
-// export const signUpUser = ({ fullName, email, phone, password }) => async (dispatch) => {
-//   try {
-//     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-//     const user = userCredential.user;
-
-//     // ✅ حفظ بيانات المستخدم في Firebase
-//     await set(ref(database, `users/${user.uid}`), { fullName, email, phone });
-
-//     // ✅ تحديث حالة Redux
-//     dispatch({
-//       type: "auth/signUpSuccess",
-//       payload: { uid: user.uid, fullName, email, phone },
-//     });
-
-//     Swal.fire({
-//       title: "Registration Successful!",
-//       text: "Redirecting to login...",
-//       icon: "success",
-//       timer: 2000,
-//       showConfirmButton: false,
-//     });
-
-//   } catch (error) {
-//     Swal.fire("Error!", error.message, "error");
-
-//     dispatch({
-//       type: "auth/signUpFailure",
-//       payload: error.message,
-//     });
-//   }
-// };
-
-// // ✅ تسجيل الدخول باستخدام Google
 export const signUpWithGoogle = () => async (dispatch) => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
 
-    // ✅ حفظ بيانات المستخدم في Firebase
+
     await set(ref(database, `users/${user.uid}`), {
       fullName: user.displayName,
       email: user.email,
@@ -249,41 +207,8 @@ export const signUpWithGoogle = () => async (dispatch) => {
     });
   }
 };
-// export const signUpUser = ({ fullName, email, phone, password }) => async (dispatch) => {
-//     try {
-//       dispatch({ type: "auth/loading" }); // ✅ تعيين حالة التحميل
-  
-//       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-//       const user = userCredential.user;
-  
-//       if (!user || !user.uid) throw new Error("User creation failed!");
-  
-//       // ✅ حفظ بيانات المستخدم في Firebase
-//       await set(ref(database, `users/${user.uid}`), { fullName, email, phone });
-  
-//       dispatch({
-//         type: "auth/signUpSuccess",
-//         payload: { uid: user.uid, fullName, email, phone },
-//       });
-  
-//       Swal.fire({
-//         title: "Registration Successful!",
-//         text: "Redirecting to login...",
-//         icon: "success",
-//         timer: 2000,
-//         showConfirmButton: false,
-//       });
-  
-//     } catch (error) {
-//       Swal.fire("Error!", error.message, "error");
-  
-//       dispatch({
-//         type: "auth/signUpFailure",
-//         payload: error.message,
-//       });
-//     }
-//   };
-export const signUpUser = ({ fullName, email, phone, password }) => async (dispatch) => {
+
+export const signUpUser = ({ fullName, email, phone, password, }) => async (dispatch) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
