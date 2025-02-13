@@ -33,6 +33,27 @@ const dispatch=useDispatch();
   function getStadiumData(stadium){
 dispatch(fetchselectedCourt(stadium))
 
+////////////// محمود ضافها
+useEffect(() => {
+  async function getData() {
+      try {
+          const response = await axios.get(url);
+          const data = response.data;
+
+          if (data) {
+              const Stadiums_array = Object.values(data);
+              dispatch(fetchStadiums(Stadiums_array));
+          }
+      } catch (error) {
+          console.error(" فشل تحميل البيانات من Firebase:", error);
+      }
+  }
+
+  getData();
+}, [FinalStadiums]);
+
+
+
 
   }
 // console.log(FinalStadiums);
