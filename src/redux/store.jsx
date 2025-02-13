@@ -10,7 +10,6 @@ import paymentSlice from './paymentSlice'
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    
     courtInfo: courtReducer,
     wishlist: wishlistReducer,
     Land:LandReducer,
