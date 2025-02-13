@@ -164,10 +164,10 @@
 
 //   return (
 //     <div
-   
+
 //     >
 //       <div className="xl:container mx-auto mb-32">
-       
+
 //         <div
 //           className="flex justify-center items-center"
 //           style={{
@@ -242,18 +242,61 @@
 //   );
 // }
 
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import axios from "axios";
 
 export default function ContactUs() {
+  const [userData, setUserData] = useState({
+    Name: "",
+    Email: "",
+    Subject: "",
+    Message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const send = async (e) => {
+    e.preventDefault();
+    const { Name, Email, Subject, Message } = userData;
+
+    try {
+      // تأكد من تكوين عنوان API بشكل صحيح
+      const response = await axios.post(
+        "https://redux-project-791e5-default-rtdb.firebaseio.com/feedbacks.json",
+        {
+          Name,
+          Email,
+          Subject,
+          Message,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Message sent successfully!");
+        setUserData({ Name: "", Email: "", Subject: "", Message: "" });
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Failed to send message. Please try again later.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="relative h-[40vh] bg-[#5B7F3B]">
         <div className="absolute inset-0 bg-black/40" />
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -269,7 +312,7 @@ export default function ContactUs() {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -277,14 +320,17 @@ export default function ContactUs() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">Get in Touch</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                Get in Touch
+              </h2>
               <p className="text-gray-600 mb-8">
-                Have questions about our services? We're here to help. Contact us through any of the following channels or fill out the form.
+                Have questions about our services? We are here to help. Contact
+                us through any of the following channels or fill out the form.
               </p>
             </div>
 
             <div className="space-y-6">
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 10 }}
                 className="flex items-center space-x-4"
               >
@@ -293,11 +339,13 @@ export default function ContactUs() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-800">Our Location</h3>
-                  <p className="text-gray-600">123 Sports Street, City Center</p>
+                  <p className="text-gray-600">
+                    123 Sports Street, City Center
+                  </p>
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 10 }}
                 className="flex items-center space-x-4"
               >
@@ -310,7 +358,7 @@ export default function ContactUs() {
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 10 }}
                 className="flex items-center space-x-4"
               >
@@ -323,7 +371,7 @@ export default function ContactUs() {
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ x: 10 }}
                 className="flex items-center space-x-4"
               >
@@ -340,15 +388,17 @@ export default function ContactUs() {
           </motion.div>
 
           {/* Contact Form */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
             className="bg-white rounded-lg shadow-lg p-8"
           >
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h3>
-            <form className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
+              Send us a Message
+            </h3>
+            <form className="space-y-6" onSubmit={send}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-gray-700 mb-2" htmlFor="name">
@@ -357,6 +407,9 @@ export default function ContactUs() {
                   <input
                     type="text"
                     id="name"
+                    name="Name"
+                    value={userData.Name}
+                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B7F3B] focus:border-transparent transition"
                     placeholder="Your name"
                   />
@@ -368,6 +421,9 @@ export default function ContactUs() {
                   <input
                     type="email"
                     id="email"
+                    name="Email"
+                    value={userData.Email}
+                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B7F3B] focus:border-transparent transition"
                     placeholder="Your email"
                   />
@@ -381,6 +437,9 @@ export default function ContactUs() {
                 <input
                   type="text"
                   id="subject"
+                  name="Subject"
+                  value={userData.Subject}
+                  onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B7F3B] focus:border-transparent transition"
                   placeholder="Message subject"
                 />
@@ -392,6 +451,9 @@ export default function ContactUs() {
                 </label>
                 <textarea
                   id="message"
+                  name="Message"
+                  value={userData.Message}
+                  onChange={handleChange}
                   rows={6}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5B7F3B] focus:border-transparent transition"
                   placeholder="Your message"

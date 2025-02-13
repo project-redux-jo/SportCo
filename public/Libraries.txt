@@ -28,3 +28,8 @@ cd functions
 npm install stripe
 
 https://console.firebase.google.com/project/redux-project-791e5/usage/details
+
+
+npm install react-big-calendar moment
+
+npm install apexcharts react-apexcharts

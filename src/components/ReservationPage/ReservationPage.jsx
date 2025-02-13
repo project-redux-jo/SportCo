@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { MapPin, Calendar, Clock, Share2, Heart, ChevronLeft, ChevronRight, ExternalLink, Play} from 'lucide-react';
 import { useDispatch,useSelector } from 'react-redux';
 import { fetchStadiums ,fetchselectedCourt} from '../../redux/StaduimsSlice';
+import {addToWishlist} from '../../redux/wishlistSlice';
+import Swal from "sweetalert2";
+
+
 
 const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(24);
@@ -9,7 +13,7 @@ const Reservation = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const selectedStadium=useSelector((state)=>state.courtInfo.selectedCourt);
-  
+  const dispatch=useDispatch();
 
   // Sample images array - replace with your actual images
   const images = [
@@ -34,6 +38,14 @@ const Reservation = () => {
     setSelectedDate(date);
     console.log(selectedDate);
   }
+  function addToSavedItems(){
+    dispatch(addToWishlist(selectedStadium));
+       Swal.fire({
+            icon: "success",
+            title: "Succesfull!",
+            text: "Your item is added to your saved list.",
+          });
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -53,7 +65,7 @@ const Reservation = () => {
           </div>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10">
+          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10" onClick={addToSavedItems}>
             <Heart size={18} className="mr-2" />
             Save
           </button>
