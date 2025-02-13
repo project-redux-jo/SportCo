@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Calendar, Clock, Share2, Heart, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { MapPin, Calendar, Clock, Share2, Heart, ChevronLeft, ChevronRight, ExternalLink, Play} from 'lucide-react';
 import { useDispatch,useSelector } from 'react-redux';
 import { fetchStadiums ,fetchselectedCourt} from '../../redux/StaduimsSlice';
 
@@ -7,6 +7,7 @@ const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(24);
   const [selectedDuration, setSelectedDuration] = useState(60);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
     const selectedStadium=useSelector((state)=>state.courtInfo.selectedCourt);
   
 
@@ -25,6 +26,14 @@ const Reservation = () => {
   const previousImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+  function saveTime(time){
+     setSelectedDuration(time);
+     console.log(selectedDuration);
+  }
+  function saveDate(date){
+    setSelectedDate(date);
+    console.log(selectedDate);
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -48,10 +57,7 @@ const Reservation = () => {
             <Heart size={18} className="mr-2" />
             Save
           </button>
-          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10">
-            <Share2 size={18} className="mr-2" />
-            Share
-          </button>
+          
         </div>
       </div>
 
@@ -146,7 +152,7 @@ const Reservation = () => {
                   className={`py-2 rounded-full text-sm
                     ${selectedDate === i + 1 ? 'bg-[#5D8736] text-white' : 'hover:bg-[#A9C46C]/10'}
                   `}
-                  onClick={() => setSelectedDate(i + 1)}
+                  onClick={() => saveDate(i+1)}
                 >
                   {i + 1}
                 </button>
@@ -166,7 +172,7 @@ const Reservation = () => {
                       ? 'bg-[#5D8736] text-white border-[#5D8736]' 
                       : 'border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10'}
                   `}
-                  onClick={() => setSelectedDuration(duration)}
+                  onClick={() =>{saveTime(duration)}}
                 >
                   {duration} Mins
                 </button>
@@ -179,6 +185,27 @@ const Reservation = () => {
           </button>
         </div>
       </div>
+      <div className="mb-12">
+    <h3 className="text-lg font-semibold mb-4">Stadium Tour</h3>
+    <div className="relative rounded-lg overflow-hidden h-[400px] bg-gray-100">
+      <iframe
+        className="w-full h-full absolute top-0 left-0"
+        src="https://www.youtube.com/embed/9h0EErTCNE8?si=Qqxwyw2bruesBsU9" // Replace YOUR_VIDEO_ID with actual YouTube video ID
+        title="Stadium Tour"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    
+   
+    </div>
+    <div className="mt-4 bg-white p-4 rounded-lg shadow-sm">
+      <h4 className="font-medium mb-2">About this video</h4>
+      <p className="text-gray-600 text-sm">
+        Take a virtual tour of our state-of-the-art stadium facilities. This video showcases our premium courts, 
+        amenities, and the overall atmosphere you can expect during your visit.
+      </p>
+    </div>
+  </div>
 
       {/* Location Section with Embedded Map */}
       <div>
