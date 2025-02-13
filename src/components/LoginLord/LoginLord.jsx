@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 // import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const LoginLord = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const Login = () => {
 
       if (userData.status === "Approved") {
 
-        navigate("/landlord-panel");
+        navigate("/LandDashboard");
       }
     } catch (error) {
       console.error("Login Error:", error.message);
@@ -61,4 +61,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginLord;

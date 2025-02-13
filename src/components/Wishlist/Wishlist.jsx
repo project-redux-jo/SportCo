@@ -6,15 +6,15 @@ const Wishlist = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="p-6 max-w-6xl mx-auto border-2">
+    <div className="p-6 max-w-6xl mx-auto border-2 mb-90 mt-20">
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 ">
-        Wishlist
+        Saved Stadiums
       </h2>
 
       {wishlistItems.length === 0 ? (
         //
 
-        <p className="text-center text-gray-500">Your wishlist is empty</p>
+        <p className="text-center text-gray-500">Your Favorites is empty</p>
       ) : (
         <>
           {wishlistItems.map((item) => (
@@ -22,8 +22,8 @@ const Wishlist = () => {
               key={item.id}
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
-              <img src={item.image} alt={item.title} className="h-16" />
-              <p>{item.title}</p>
+              <img src={item.image} alt={item.name} className="h-16" />
+              <p>{item.name}</p>
               <p>{item.price}</p>
               <button
                 onClick={() => dispatch(removeFromWishlist(item.id))}

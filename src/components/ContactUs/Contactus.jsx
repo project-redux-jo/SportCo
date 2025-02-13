@@ -267,7 +267,7 @@ export default function ContactUs() {
     try {
       // تأكد من تكوين عنوان API بشكل صحيح
       const response = await axios.post(
-        "https://contact-d8d7d-default-rtdb.firebaseio.com/user.json",
+        "https://redux-project-791e5-default-rtdb.firebaseio.com/feedbacks.json",
         {
           Name,
           Email,
