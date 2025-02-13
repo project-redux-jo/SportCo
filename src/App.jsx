@@ -16,8 +16,14 @@ import Contactus from "./components/ContactUs/Contactus";
 import Wishlist from "./components/Wishlist/Wishlist";
 import SignUpLandlord from "./components/LoginLord/SignUpLord";
 import Aboutus from "./components/AboutUs/Aboutus";
+
 import UserProfile from "./components/UserProfile/UserProfile";
 import Logout from "./components/Logout";
+
+import AdminDashboard from "./components/DashboardAdmin/AdminDashboard";
+import PropertyManagement from "./components/LandlordPanel/PropertyManagement";
+import LandDashboard from "./components/LandlordPanel/LandDashboard";
+
 
 function App() {
   return (
@@ -47,8 +53,14 @@ function App() {
         <Route path="/stadiums" element={<Stadiums />} />
         <Route path="/contact" element={<Contactus />} />
         <Route path="/wishlist" element={<Wishlist />} />
+
         <Route path="/UserProfile" element={<UserProfile />} />
         <Route path="/logout" element={<Logout />} />
+
+        <Route path="/admin-dashboard/*" element={<AdminDashboard />} />
+        <Route path="/LandDashboard/*" element={< LandDashboard />} />
+        {/* <Route path="/PropertyManagement" element={<PropertyManagement />} /> */}
+
       </Routes>
       <Footer />
     </Router>

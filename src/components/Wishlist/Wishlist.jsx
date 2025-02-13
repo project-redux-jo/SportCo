@@ -40,6 +40,12 @@ const Wishlist = () => {
 };
 
 export default Wishlist;
+
+
+
+
+
+
 // import { useSelector, useDispatch } from "react-redux";
 // import { removeFromWishlist } from "../../redux/wishlistSlice";
 // import { motion } from "framer-motion";
