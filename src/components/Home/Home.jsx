@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFutbol, faStar, faCheck } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -7,9 +7,10 @@ import {
   CreditCard,
   CalendarCheck,
   CalendarDays,
+  ArrowUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion"; // Import Framer Motion for animations
+import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -75,6 +76,25 @@ function Home() {
       position: [32.09444815587646, 36.07893494685292],
     },
   ];
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  // Handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div>
       <main className="flex flex-col ">
@@ -413,6 +433,24 @@ function Home() {
             </MapContainer>
           </div>
         </motion.section>
+
+        {/* Scroll-to-Top Button */}
+        {showScrollButton && (
+          <motion.button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl p-4 rounded-full flex items-center justify-center border border-gray-200 hover:shadow-2xl transition duration-300"
+            initial={{ opacity: 0, y: 50, scale: 0.8 }} // Button starts hidden, slightly scaled down
+            animate={{ opacity: 1, y: 0, scale: 1 }} // Fades in, moves up, and scales up
+            exit={{ opacity: 0, y: 50, scale: 0.8 }} // Moves down and fades out when disappearing
+            whileHover={{
+              scale: 1.15,
+              boxShadow: "0px 4px 20px rgba(34, 197, 94, 0.6)",
+            }} // Glow effect on hover
+            transition={{ duration: 0.4, ease: "easeOut" }} // Smooth animation timing
+          >
+            <ArrowUp size={28} />
+          </motion.button>
+        )}
       </main>
     </div>
   );
