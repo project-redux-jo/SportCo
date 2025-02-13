@@ -73,6 +73,8 @@ import React, { useState } from "react";
 import { auth, createUserWithEmailAndPassword } from "../../firebase";
 import api from "../../api"; // Axios instance
 import { useNavigate } from "react-router-dom";
+// import { FaWhatsapp,FaTimes } from "react-icons/fa";
+import WhatsAppChat from "./WhatsAppChat";
 
 const SignUpLandlord = () => {
   const [email, setEmail] = useState("");
@@ -120,6 +122,7 @@ const SignUpLandlord = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+      <WhatsAppChat/>
       <h2 className="text-2xl font-bold mb-4">Register as Landlord</h2>
       <form onSubmit={handleSignup} className="flex flex-col space-y-3">
         <input type="text" placeholder="Full Name" className="p-2 border" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -136,6 +139,7 @@ const SignUpLandlord = () => {
         <button type="submit" className="bg-blue-500 text-white p-2">Register</button>
       </form>
       {imageBase64 && <img src={imageBase64} alt="Preview" className="mt-4 w-32 h-32 object-cover" />}
+         
     </div>
   );
 };

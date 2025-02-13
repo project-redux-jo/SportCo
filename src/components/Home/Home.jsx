@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFutbol, faStar, faCheck } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -7,9 +7,10 @@ import {
   CreditCard,
   CalendarCheck,
   CalendarDays,
+  ArrowUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion"; // Import Framer Motion for animations
+import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -54,7 +55,46 @@ function Home() {
       name: "Golden Ball Stadium Penta",
       position: [32.04704880147237, 36.09512434593029],
     },
+    {
+      id: 6,
+      name: "Aljmzawey courts",
+      position: [32.068184029167426, 36.074773142959764],
+    },
+    {
+      id: 7,
+      name: "Khatab Court",
+      position: [32.083348319095606, 36.08748916334725],
+    },
+    {
+      id: 8,
+      name: "Seher Alshouq",
+      position: [32.08847753364245, 36.113675371048494],
+    },
+    {
+      id: 8,
+      name: "Tarawneh Staduim",
+      position: [32.09444815587646, 36.07893494685292],
+    },
   ];
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  // Handle scroll event
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div>
       <main className="flex flex-col ">
@@ -149,26 +189,26 @@ function Home() {
                   </p>
                 </div>
                 {/* <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row justify-center items-center gap-10 mx-auto"> */}
-                  <div className="flex flex-col items-center">
-                    <CreditCard size={40} className="text-[#A9C46C] mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Secure and multiple payment
-                    </h3>
-                    <p className="text-gray-600 mt-2">
-                      Multiple payment options.
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <CalendarCheck size={40} className="text-[#A9C46C] mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Easy booking management
-                    </h3>
-                    <p className="text-gray-600 mt-2">
-                      An application that makes it easy for playground owners to
-                      manage bookings.
-                    </p>
-                  </div>
-               
+                <div className="flex flex-col items-center">
+                  <CreditCard size={40} className="text-[#A9C46C] mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    Secure and multiple payment
+                  </h3>
+                  <p className="text-gray-600 mt-2">
+                    Multiple payment options.
+                  </p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <CalendarCheck size={40} className="text-[#A9C46C] mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    Easy booking management
+                  </h3>
+                  <p className="text-gray-600 mt-2">
+                    An application that makes it easy for playground owners to
+                    manage bookings.
+                  </p>
+                </div>
+
                 <div className="flex flex-col items-center">
                   <FontAwesomeIcon
                     icon={faStar}
@@ -304,7 +344,7 @@ function Home() {
             transition={{ duration: 0.3 }}
           >
             <Link
-              to="/about"
+              to="/aboutus"
               className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-lg font-semibold rounded-full shadow-lg transition hover:scale-105"
             >
               Know More
@@ -374,8 +414,8 @@ function Home() {
           {/* 🗺️ Map Component */}
           <div className="w-full max-w-4xl mx-auto mt-6 h-[400px]">
             <MapContainer
-              center={[31.963158, 35.930359]} // Centered on Amman
-              zoom={8} // Adjust zoom level to show all markers
+              center={[32.07275, 36.08796]} // Centered on Amman
+              zoom={12} // Adjust zoom level to show all markers
               style={{ height: "100%", width: "100%", borderRadius: "10px" }}
             >
               {/* Tile Layer - OpenStreetMap */}
@@ -393,6 +433,24 @@ function Home() {
             </MapContainer>
           </div>
         </motion.section>
+
+        {/* Scroll-to-Top Button */}
+        {showScrollButton && (
+          <motion.button
+            onClick={scrollToTop}
+            className="fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl p-4 rounded-full flex items-center justify-center border border-gray-200 hover:shadow-2xl transition duration-300"
+            initial={{ opacity: 0, y: 50, scale: 0.8 }} // Button starts hidden, slightly scaled down
+            animate={{ opacity: 1, y: 0, scale: 1 }} // Fades in, moves up, and scales up
+            exit={{ opacity: 0, y: 50, scale: 0.8 }} // Moves down and fades out when disappearing
+            whileHover={{
+              scale: 1.15,
+              boxShadow: "0px 4px 20px rgba(34, 197, 94, 0.6)",
+            }} // Glow effect on hover
+            transition={{ duration: 0.4, ease: "easeOut" }} // Smooth animation timing
+          >
+            <ArrowUp size={28} />
+          </motion.button>
+        )}
       </main>
     </div>
   );
