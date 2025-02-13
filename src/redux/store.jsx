@@ -6,6 +6,7 @@ import LandReducer from './sliceLandlord';
 import landlordApplicationsReducer from './landlordApplicationSlice';
 import listingsReducer from './listingSlice';
 import userReducer from './userslice';
+import paymentSlice from './paymentSlice'
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -16,6 +17,7 @@ const store = configureStore({
     user: userReducer,
     landlordApplications: landlordApplicationsReducer,
     listings: listingsReducer,
+    payment : paymentSlice ,
   },
 });
 
