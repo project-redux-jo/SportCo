@@ -16,6 +16,8 @@ import Contactus from "./components/ContactUs/Contactus";
 import Wishlist from "./components/Wishlist/Wishlist";
 import SignUpLandlord from "./components/LoginLord/SignUpLord";
 import Aboutus from "./components/AboutUs/Aboutus";
+import UserProfile from "./components/UserProfile/UserProfile";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/Aboutus" element={<Aboutus/>}></Route>
+        <Route path="/Aboutus" element={<Aboutus />}></Route>
         <Route path="/SignUpLord" element={<SignUpLandlord />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LoginPage />} />
@@ -45,6 +47,8 @@ function App() {
         <Route path="/stadiums" element={<Stadiums />} />
         <Route path="/contact" element={<Contactus />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/UserProfile" element={<UserProfile />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
       <Footer />
     </Router>
