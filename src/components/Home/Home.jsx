@@ -8,10 +8,16 @@ import {
   CalendarCheck,
   CalendarDays,
   ArrowUp,
+  DollarSign,
 } from "lucide-react";
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchStadiums } from "../../redux/StaduimsSlice"; // Import Redux action
+import axios from "axios";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -95,6 +101,36 @@ function Home() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const dispatch = useDispatch();
+  const stadiums = useSelector((state) => state.courtInfo.courts);
+  const featuredStadiums = stadiums.slice(0, 4); // Get first 4 stadiums
+
+  const url =
+    "https://redux-project-791e5-default-rtdb.firebaseio.com/Stadiums.json";
+
+  // Fetch stadiums if Redux store is empty
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get(url);
+        const data = response.data;
+
+        if (data) {
+          const Stadiums_array = Object.values(data);
+          dispatch(fetchStadiums(Stadiums_array));
+          console.log("📥 Fetched Stadiums in Home Page:", Stadiums_array);
+        }
+      } catch (error) {
+        console.error("⚠️ Error fetching stadiums:", error);
+      }
+    }
+
+    if (stadiums.length === 0) {
+      // Fetch only if Redux is empty
+      getData();
+    }
+  }, [dispatch, stadiums.length]);
+
   return (
     <div>
       <main className="flex flex-col ">
@@ -227,17 +263,75 @@ function Home() {
             </div>
           </section>
         </motion.section>
-
-        {/* Special & Unique Experience Section */}
+        {/* 🏟 Featured Stadiums Section */}
         <motion.section
-          id="experience"
-          className="py-16 bg-gradient-to-b from-white to-[#F5FAF7]"
+          className="py-16 bg-[#F5FAF7] text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            Featured Stadiums
+          </h2>
+
+          {/* Stadiums Grid */}
+          {featuredStadiums.length > 0 ? (
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {featuredStadiums.map((stadium) => (
+                <motion.div
+                  key={stadium.id}
+                  className="bg-white rounded-xl shadow-md overflow-hidden transition-transform transform hover:scale-105"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {/* Stadium Image */}
+                  <img
+                    src={stadium.image}
+                    alt={stadium.name}
+                    className="w-full h-40 object-cover"
+                  />
+
+                  {/* Stadium Info */}
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {stadium.name}
+                    </h3>
+
+                    <div className="flex items-center gap-2 text-gray-600 mt-2">
+                      <MapPin size={16} />
+                      <span className="text-sm">{stadium.location}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-gray-600 mt-2">
+                      <DollarSign size={16} />
+                      <span className="text-sm">${stadium.price}/hr</span>
+                    </div>
+
+                    {/* View More Button */}
+                    <Link to="/stadiums">
+                      <button className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg text-sm font-medium transition hover:bg-green-700">
+                        View More
+                      </button>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 mt-4">🔄 Loading stadiums...</p>
+          )}
+        </motion.section>
+
+        {/* Special & Unique Experience Section */}
+        <motion.section
+          id="experience"
+          className="py-16 bg-gradient-to-b from-[#f5faf7] to-[#e3f5f4]"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="max-w-6xl mx-auto px-6 ">
             {/* First Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
               <div>
@@ -401,7 +495,7 @@ function Home() {
         </motion.section>
         {/* 📍 Map Section */}
         <motion.section
-          className="py-16 bg-[#F5FAF7] text-center"
+          className="py-16  bg-gradient-to-b from-[#f5faf7] to-[#fafafa] text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -438,7 +532,7 @@ function Home() {
         {showScrollButton && (
           <motion.button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl p-4 rounded-full flex items-center justify-center border border-gray-200 hover:shadow-2xl transition duration-300"
+            className="cursor-pointer fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-600 text-white shadow-xl p-4 rounded-full flex items-center justify-center border border-gray-200 hover:shadow-2xl transition duration-300"
             initial={{ opacity: 0, y: 50, scale: 0.8 }} // Button starts hidden, slightly scaled down
             animate={{ opacity: 1, y: 0, scale: 1 }} // Fades in, moves up, and scales up
             exit={{ opacity: 0, y: 50, scale: 0.8 }} // Moves down and fades out when disappearing
