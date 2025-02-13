@@ -37,8 +37,8 @@ if(d.status==="Approved"){
     }
     getData();
   }, [FinalStadiums]);
-//   function getStadiumData(stadium){
-// dispatch(fetchselectedCourt(stadium))
+  function getStadiumData(stadium){
+dispatch(fetchselectedCourt(stadium))
 
 ////////////// محمود ضافها
 // useEffect(() => {
@@ -62,7 +62,7 @@ if(d.status==="Approved"){
 
 
 
-  // }
+  }
 // console.log(FinalStadiums);
 console.log(selectedStadium);
 

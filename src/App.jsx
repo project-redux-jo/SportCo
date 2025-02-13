@@ -8,8 +8,6 @@ import LoginPage from "./components/LogIn/Login";
 import SignUp from "./components/SignUp/SignUp";
 import ForgotPassword from "./components/LogIn/ForgotPassword";
 import LoginLord from "./components/LoginLord/LoginLord";
-// import Bookingcard from "./components/ReservationPage/bookingcard";
-import CheckoutForm from "./components/Payment/Payment";
 import Stadiums from "./components/Stadiums/Stadiums";
 import Reservation from "./components/ReservationPage/ReservationPage";
 import Contactus from "./components/ContactUs/Contactus";
@@ -21,7 +19,7 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import Logout from "./components/Logout";
 
 import AdminDashboard from "./components/DashboardAdmin/AdminDashboard";
-import PropertyManagement from "./components/LandlordPanel/PropertyManagement";
+// import PropertyManagement from "./components/LandlordPanel/PropertyManagement";
 import LandDashboard from "./components/LandlordPanel/LandDashboard";
 
 function App() {
@@ -48,7 +46,6 @@ function App() {
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/LoginLord" element={<LoginLord />} />
         <Route path="/reservation" element={<Reservation />} />
-        <Route path="/payment" element={<CheckoutForm />} />
         <Route path="/stadiums" element={<Stadiums />} />
         <Route path="/contact" element={<Contactus />} />
         <Route path="/wishlist" element={<Wishlist />} />
