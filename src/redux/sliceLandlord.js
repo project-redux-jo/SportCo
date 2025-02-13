@@ -63,6 +63,7 @@ const authSlice = createSlice({
     },
   },
 });
+export const { registerLandlordSuccess, registerLandlordFailure } = authSlice.actions;
 
 export default authSlice.reducer;
 
