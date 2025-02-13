@@ -51,7 +51,6 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           {!user ? (
             <>
-              {/* Show Login & Signup if NOT logged in */}
               <Link to="/login">
                 <button className="bg-[#A3C178] text-[#334D19] px-5 py-2 rounded-lg hover:bg-[#89A15E] transition cursor-pointer">
                   Login
@@ -60,6 +59,12 @@ const Navbar = () => {
               <Link to="/signup">
                 <button className="bg-[#DDEEB2] text-[#334D19] px-5 py-2 rounded-lg hover:bg-[#C5D994] transition cursor-pointer">
                   Sign up
+                </button>
+              </Link>{" "}
+              {/* Show For Stadium Owners, Login & Signup if NOT logged in */}
+              <Link to="/SignUpLord">
+                <button className=" text-[#f7f7f7] hover:text-[#334D19] px-5 py-2 rounded-lg hover:bg-[#bbff84] transition cursor-pointer">
+                  For Stadium Owners
                 </button>
               </Link>
             </>
@@ -117,7 +122,6 @@ const Navbar = () => {
 
           {!user ? (
             <>
-              {/* Show Login & Signup in Mobile if NOT logged in */}
               <Link to="/login">
                 <button className="bg-[#A3C178] text-[#334D19] w-full px-5 py-2 rounded-lg hover:bg-[#89A15E] transition">
                   Login
