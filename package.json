@@ -30,6 +30,7 @@
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "emailjs-com": "^3.2.0",
     "firebase": "^11.2.0",
     "framer-motion": "^12.4.2",
     "json-server": "^1.0.0-beta.3",
