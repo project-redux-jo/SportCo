@@ -9,16 +9,22 @@ import { fetchPaymentDataByDate } from '../../redux/paymentSlice'; // Adjust the
 function Calendar() {
   const dispatch = useDispatch();
   const paymentData = useSelector((state) => state.payment.paymentData);
+  const selectedStadium = useSelector((state) => state.courtInfo.selectedCourt);
+  // useEffect(() => {
+  //   dispatch(fetchPaymentDataByDate());
+  // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchPaymentDataByDate());
-  }, [dispatch]);
+    if (selectedStadium?.name) {
+      dispatch(fetchPaymentDataByDate(selectedStadium.name));
+    }
+  }, [dispatch, selectedStadium]);
+
+
 
   // Transform payment data into calendar events
-  const getEvents = () => {
+    const getEvents = () => {
     if (!paymentData?.data) return [];
-    
-    // Convert Firebase data object into array of events
     return Object.values(paymentData.data).map(payment => ({
       title: 'Booked',
       date: payment.date,

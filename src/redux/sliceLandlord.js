@@ -55,7 +55,7 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.error = null;
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      
     },
     registerLandlordFailure: (state, action) => {
       state.user = null;
@@ -67,6 +67,7 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     loginFailure: (state, action) => {
       state.user = null;

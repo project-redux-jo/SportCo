@@ -34,10 +34,6 @@ const LandlordApplications = () => {
     fetchApplications();
   }, [dispatch]);
 
-
-
-
-  
   // Approve or Reject an application
   const handleAction = async (id, status) => {
     setLoading(true);
@@ -69,7 +65,6 @@ const LandlordApplications = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
             </tr>
@@ -80,7 +75,6 @@ const LandlordApplications = () => {
                 <td className="px-6 py-4 text-gray-700">{app.name}</td>
                 <td className="px-6 py-4 text-gray-700">{app.email}</td>
                 <td className="px-6 py-4 text-gray-700">{app.phoneNumber}</td>
-                <td className="px-6 py-4 text-gray-700">{app.date}</td>
                 <td className="px-6 py-4 text-gray-700">{app.status}</td>
                 <td className="px-6 py-4 flex justify-center space-x-2">
                   <button 
@@ -140,7 +134,6 @@ const LandlordApplications = () => {
                 <p className="mb-2"><strong>Name:</strong> {selectedApplication.name}</p>
                 <p className="mb-2"><strong>Email:</strong> {selectedApplication.email}</p>
                 <p className="mb-2"><strong>Location:</strong> {selectedApplication.location}</p>
-                <p className="mb-2"><strong>Date:</strong> {selectedApplication.date}</p>
                 <p className="mb-2"><strong>Status:</strong> {selectedApplication.status}</p>
               </div>
             </div>
