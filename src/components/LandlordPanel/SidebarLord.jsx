@@ -1,21 +1,21 @@
 // SideBar.jsx
-import { FaChartBar, FaUser, FaFileAlt, FaCalendar, FaSignOutAlt } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import { FaChartBar, FaBuilding, FaUser, FaFileAlt, FaCalendar, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const SidebarLord = () => {
+  const user = useSelector((state) => state.Land.user); // Get user from Redux
   return (
     <div className="bg-gray-800 text-white h-screen p-5 w-64 flex flex-col">
       <div>
         <h1 className="text-xl font-bold mb-6">Landloard Dashboard</h1>
         <nav className="space-y-4">
           <SidebarItem 
-            icon={<FaChartBar />} 
+            icon={<FaBuilding />} 
             text="Property Management" 
             to="/LandDashboard" // Index route
           />
           <SidebarItem 
-            icon={<FaUser />} 
+            icon={<FaCalendar />} 
             text="Availability Calendar" 
             to="/LandDashboard/LandlordCalendar" 
           />
@@ -25,12 +25,12 @@ const SidebarLord = () => {
             to="/LandDashboard/BookingManagement" 
           />
           <SidebarItem 
-            icon={<FaCalendar />} 
+            icon={<FaChartBar />} 
             text="Analytics" 
             to="/LandDashboard/Analytics" 
           />
           <SidebarItem 
-            icon={<CgProfile />} 
+            icon={<FaUser />} 
             text="Profile" 
             to="/LandDashboard/Profile" 
           />

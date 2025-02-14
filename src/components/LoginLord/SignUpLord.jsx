@@ -73,7 +73,10 @@ import React, { useState } from "react";
 import { auth, createUserWithEmailAndPassword } from "../../firebase";
 import api from "../../api"; // Axios instance
 import { useNavigate } from "react-router-dom";
-
+// import { FaWhatsapp,FaTimes } from "react-icons/fa";
+import WhatsAppChat from "./WhatsAppChat";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
 const SignUpLandlord = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,7 +85,7 @@ const SignUpLandlord = () => {
   const [location, setLocation] = useState("");
   const [imageBase64, setImageBase64] = useState("");
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -114,16 +117,31 @@ const SignUpLandlord = () => {
         status: "pending",
       });
 
-      console.log("Landlord application submitted successfully!");
-      alert("Your application has been submitted for review.");
-      navigate("/LogIn");
+
+
+      // dispatch(
+      //   login({
+      //     userId: user.uid,
+      //     name,
+      //     email,
+      //     role: "landlord",
+      //     status: "pending",
+      //     profileImage: imageBase64,
+      //   })
+      // );
+
+
+      
+      Swal.fire("Success!", "Your application has been submitted for review.", "success");
+      navigate("/LoginLord");
     } catch (error) {
-      console.error("Signup Error:", error.message);
+      Swal.fire("Error!", error.message, "error");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
+      <WhatsAppChat/>
       <h2 className="text-2xl font-bold mb-4">Register as Landlord</h2>
       <form onSubmit={handleSignup} className="flex flex-col space-y-3">
         <input

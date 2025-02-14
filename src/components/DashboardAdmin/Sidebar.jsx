@@ -24,16 +24,6 @@ const Sidebar = () => {
             text="Listing Approvals" 
             to="/admin-dashboard/listing-approvals" 
           />
-          <SidebarItem 
-            icon={<FaCalendar />} 
-            text="Rental Requests" 
-            to="/admin-dashboard/rental-requests" 
-          />
-          <SidebarItem 
-            icon={<CgProfile />} 
-            text="Profile" 
-            to="/admin-dashboard/profile" 
-          />
         </nav>
       </div>
       <div className="mt-auto">

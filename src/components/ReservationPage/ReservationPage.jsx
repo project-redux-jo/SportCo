@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { MapPin, Calendar, Clock, Share2, Heart, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { MapPin,  Heart, ChevronLeft, ChevronRight, ExternalLink, } from 'lucide-react';
 import { useDispatch,useSelector } from 'react-redux';
-import { fetchStadiums ,fetchselectedCourt} from '../../redux/StaduimsSlice';
+// import { fetchStadiums ,fetchselectedCourt} from '../../redux/StaduimsSlice';
+import {addToWishlist} from '../../redux/wishlistSlice';
+import Swal from "sweetalert2";
+import Bookingcard from './bookingcard';
+
+
 
 const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(24);
   const [selectedDuration, setSelectedDuration] = useState(60);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
     const selectedStadium=useSelector((state)=>state.courtInfo.selectedCourt);
-  
+  const dispatch=useDispatch();
 
   // Sample images array - replace with your actual images
   const images = [
@@ -25,6 +31,22 @@ const Reservation = () => {
   const previousImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+  function saveTime(time){
+     setSelectedDuration(time);
+     console.log(selectedDuration);
+  }
+  function saveDate(date){
+    setSelectedDate(date);
+    console.log(selectedDate);
+  }
+  function addToSavedItems(){
+    dispatch(addToWishlist(selectedStadium));
+       Swal.fire({
+            icon: "success",
+            title: "Succesfull!",
+            text: "Your item is added to your saved list.",
+          });
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -44,20 +66,17 @@ const Reservation = () => {
           </div>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10">
+          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10" onClick={addToSavedItems}>
             <Heart size={18} className="mr-2" />
             Save
           </button>
-          <button className="flex items-center px-4 py-2 rounded-md border border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10">
-            <Share2 size={18} className="mr-2" />
-            Share
-          </button>
+          
         </div>
       </div>
 
       {/* Stadium Info */}
-      <div className="grid grid-cols-3 gap-8 mb-8">
-        <div className="col-span-2">
+      <div className="grid grid-cols-10 gap-8 mb-8">
+        <div className="col-span-6">
           <div className="flex items-center gap-4 mb-4">
             <div>
               <h2 className="font-semibold">{selectedStadium.name}</h2>
@@ -116,69 +135,32 @@ const Reservation = () => {
           </div>
         </div>
 
-        {/* Booking Section */}
-        <div className="bg-white rounded-lg p-6 shadow-sm">
-          <h3 className="text-lg font-semibold mb-4">Book a Field on Private Padel Area</h3>
-          <p className="text-gray-600 mb-6">Select date and duration to show available slots</p>
-
-          {/* Calendar */}
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <h4 className="font-medium">February 2025</h4>
-              <div className="flex gap-2">
-                <button className="p-1 rounded hover:bg-gray-100">
-                  <ChevronLeft size={20} />
-                </button>
-                <button className="p-1 rounded hover:bg-gray-100">
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-            </div>
-            
-            {/* Calendar Grid */}
-            <div className="grid grid-cols-7 gap-1">
-              {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                <div key={day} className="text-center text-sm font-medium py-2">{day}</div>
-              ))}
-              {Array(31).fill(null).map((_, i) => (
-                <button
-                  key={i}
-                  className={`py-2 rounded-full text-sm
-                    ${selectedDate === i + 1 ? 'bg-[#5D8736] text-white' : 'hover:bg-[#A9C46C]/10'}
-                  `}
-                  onClick={() => setSelectedDate(i + 1)}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Duration Selection */}
-          <div className="mb-6">
-            <h4 className="font-medium mb-3">Match Duration</h4>
-            <div className="flex gap-3">
-              {[60, 90, 120].map(duration => (
-                <button
-                  key={duration}
-                  className={`flex-1 py-2 rounded-md text-sm border
-                    ${selectedDuration === duration 
-                      ? 'bg-[#5D8736] text-white border-[#5D8736]' 
-                      : 'border-[#A9C46C] text-[#5D8736] hover:bg-[#A9C46C]/10'}
-                  `}
-                  onClick={() => setSelectedDuration(duration)}
-                >
-                  {duration} Mins
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button className="w-full py-3 bg-[#A9C46C] text-white rounded-md hover:bg-[#5D8736] transition-colors">
-            SHOW AVAILABLE SLOTS
-          </button>
+           {/* Booking Section  اضافه كارد للحجز */}
+           <div className="bg-white rounded-lg  shadow-sm  col-span-4"> 
+<Bookingcard/>
         </div>
       </div>
+      <div className="mb-12">
+    <h3 className="text-lg font-semibold mb-4">Stadium Tour</h3>
+    <div className="relative rounded-lg overflow-hidden h-[400px] bg-gray-100">
+      <iframe
+        className="w-full h-full absolute top-0 left-0"
+        src="https://www.youtube.com/embed/9h0EErTCNE8?si=Qqxwyw2bruesBsU9" // Replace YOUR_VIDEO_ID with actual YouTube video ID
+        title="Stadium Tour"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    
+   
+    </div>
+    <div className="mt-4 bg-white p-4 rounded-lg shadow-sm">
+      <h4 className="font-medium mb-2">About this video</h4>
+      <p className="text-gray-600 text-sm">
+        Take a virtual tour of our state-of-the-art stadium facilities. This video showcases our premium courts, 
+        amenities, and the overall atmosphere you can expect during your visit.
+      </p>
+    </div>
+  </div>
 
       {/* Location Section with Embedded Map */}
       <div>

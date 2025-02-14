@@ -583,11 +583,15 @@ export const logoutUser = () => async (dispatch) => {
   }
 };
 
+
+
+
+const storedUser = JSON.parse(localStorage.getItem("user")) || null;
 // ✅ تعريف الـ Slice وإضافة Reducers
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: storedUser,
     loading: false,
     error: null,
   },
@@ -599,34 +603,41 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     signUpFailure: (state, action) => {
       state.user = null;
       state.loading = false;
       state.error = action.payload;
+      localStorage.removeItem("user");
     },
     googleSignUpSuccess: (state, action) => {
       state.user = action.payload;
       state.loading = false;
       state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     googleSignUpFailure: (state, action) => {
       state.user = null;
       state.loading = false;
       state.error = action.payload;
+      localStorage.removeItem("user");
     },
     loginSuccess: (state, action) => {
       state.user = action.payload;
       state.loading = false;
       state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     loginFailure: (state, action) => {
       state.user = null;
       state.loading = false;
       state.error = action.payload;
+      localStorage.removeItem("user");
     },
     logout: (state) => {
       state.user = null;
+      localStorage.removeItem("user"); 
     },
   },
 });

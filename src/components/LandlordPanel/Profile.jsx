@@ -3,24 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase"; // Make sure to import auth from Firebase
 import api from "../../api"; // Axios instance
 import Swal from "sweetalert2"; // For displaying messages
-
+import {useSelector} from "react-redux"
 const Profile = () => {
-  const [userData, setUserData] = useState(null); // User data
-  const [loading, setLoading] = useState(true); // Loading state
+  const storedUser = useSelector((state) => state.Land.user); 
+  const [userData, setUserData] = useState(storedUser || null); // User data
+  const [loading, setLoading] = useState(!storedUser); // Loading state
   const navigate = useNavigate();
 
   // Fetch user data from the database
   useEffect(() => {
+   
     const fetchUserData = async () => {
       try {
         const user = auth.currentUser; // Get the current user
         if (user) {
           const response = await api.get(`/Landlords/${user.uid}.json`);
           setUserData(response.data); // Save data to state
-        } else {
-          Swal.fire("Error!", "No user found. Please log in.", "error");
-          navigate("/LogIn"); // Redirect to login page
-        }
+        } 
+        // else {
+        //   Swal.fire("Error!", "No user found. Please log in.", "error");
+        //   navigate("/LogIn"); // Redirect to login page
+        // }
       } catch (error) {
         console.error("Error fetching user data:", error);
         Swal.fire("Error!", "Failed to fetch user data.", "error");

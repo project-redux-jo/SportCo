@@ -5,8 +5,9 @@ import api from "../../api";
 import { useDispatch } from "react-redux";
 // import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
-
-const Login = () => {
+import Swal from "sweetalert2";
+import { loginSuccess, loginFailure } from "../../redux/sliceLandlord";
+const LoginLord = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -23,29 +24,40 @@ const Login = () => {
       const userData = response.data;
 
       if (!userData) {
-        console.error("User data not found.");
+        Swal.fire("Error!", "User data not found.", "error");
         return;
       }
-
       if (userData.status === "pending") {
-        alert("Your application is still under review.");
-        console.log("Your application is still under review.")
+        Swal.fire("Pending", "Your application is still under review.", "info");
         return;
       }
       if (userData.status === "Rejected") {
-        alert("Your application has been rejected.");
-        console.log("Your application has been rejected.")
+        Swal.fire("Rejected", "Your application has been rejected.", "error");
         return;
       }
       // Dispatch login state to Redux
     //   dispatch(login({ userId: user.uid, role: userData.role }));
 
       if (userData.status === "Approved") {
-
-        navigate("/landlord-panel");
+        const userPayload = {
+          uid: user.uid,
+          fullName: userData.name,
+          email: userData.email,
+          phone: userData.phoneNumber,
+          location: userData.location,
+          profileImagePath: userData.profileImage,
+          role: userData.role,
+          status: userData.status,
+        };
+  
+        dispatch(loginSuccess(userPayload));
+        Swal.fire("Success!", "Login successful!", "success");
+        localStorage.setItem("user", JSON.stringify(userPayload));
+        navigate("/LandDashboard");
       }
     } catch (error) {
       console.error("Login Error:", error.message);
+      dispatch(loginFailure(error.message));
     }
   };
 
@@ -61,4 +73,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginLord;

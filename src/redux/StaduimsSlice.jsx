@@ -13,6 +13,7 @@ const stadiumsSlice = createSlice({
     initialState, // Fixed typo
     reducers: {
         fetchStadiums: (state, action) => {
+            
             state.courts=action.payload;
         },
         fetchselectedCourt:(state,action)=>{
