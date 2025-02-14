@@ -1,8 +1,14 @@
+// 
+
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {  // Fixed typo
-    courts: [],
-    selectedCourt:[]
+    // courts: [],
+    // selectedCourt:[]
+    // ,
+        courts: JSON.parse(localStorage.getItem("courts")) || [],
+    selectedCourt: JSON.parse(localStorage.getItem("selectedCourt")) || []
 };
 
 
@@ -15,10 +21,12 @@ const stadiumsSlice = createSlice({
         fetchStadiums: (state, action) => {
             
             state.courts=action.payload;
+             localStorage.setItem("courts", JSON.stringify(state.courts));
         },
         fetchselectedCourt:(state,action)=>{
             state.selectedCourt=[];
             state.selectedCourt=action.payload;
+            localStorage.setItem("selectedCourt", JSON.stringify(state.selectedCourt));
         }
         ,addStaduim:(state,action)=>{
             // state.courts+=(action.payload);

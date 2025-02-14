@@ -4,7 +4,7 @@ import courtReducer from "./StaduimsSlice";
 import wishlistReducer from "./wishlistSlice";
 import LandReducer from './sliceLandlord';
 import landlordApplicationsReducer from './landlordApplicationSlice';
-import listingsReducer from './listingSlice';
+import stadiumListingReducer from "./stadiumListingSlice";
 import userReducer from './userslice';
 import paymentSlice from './paymentSlice'
 const store = configureStore({
@@ -15,7 +15,7 @@ const store = configureStore({
     Land:LandReducer,
     user: userReducer,
     landlordApplications: landlordApplicationsReducer,
-    listings: listingsReducer,
+    stadiumListings: stadiumListingReducer,
     payment : paymentSlice ,
   },
 });

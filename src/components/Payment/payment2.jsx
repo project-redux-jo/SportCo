@@ -39,6 +39,7 @@ function PaymentForm() {
       expirationDate: formData.expirationDate,
       ccv: formData.ccv,
       price: selectedStadium.price,
+      stadiumId:selectedStadium.id, 
     };
   
     dispatch(sendPaymentData(paymentDetails)); 

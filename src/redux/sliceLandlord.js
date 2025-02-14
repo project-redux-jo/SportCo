@@ -42,11 +42,11 @@ export const registerLandlord = ({ fullName, email, phone, location, profileImag
   }
 };
 
-
+const storedUser = JSON.parse(localStorage.getItem("user")) || null;
 const authSlice = createSlice({
   name: "Land",
   initialState: {
-    user: null,
+    user: storedUser,
     loading: false,
     error: null,
   },
@@ -55,14 +55,32 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.error = null;
+      
     },
     registerLandlordFailure: (state, action) => {
       state.user = null;
       state.loading = false;
       state.error = action.payload;
+      localStorage.removeItem("user");
+    },
+    loginSuccess: (state, action) => {
+      state.user = action.payload;
+      state.loading = false;
+      state.error = null;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+    loginFailure: (state, action) => {
+      state.user = null;
+      state.loading = false;
+      state.error = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+      localStorage.removeItem("user");
     },
   },
 });
+export const { loginSuccess, loginFailure, logout } = authSlice.actions;
 export const { registerLandlordSuccess, registerLandlordFailure } = authSlice.actions;
 
 export default authSlice.reducer;

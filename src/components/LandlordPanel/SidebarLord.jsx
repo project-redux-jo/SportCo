@@ -1,8 +1,9 @@
 // SideBar.jsx
 import { FaChartBar, FaBuilding, FaUser, FaFileAlt, FaCalendar, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const SidebarLord = () => {
+  const user = useSelector((state) => state.Land.user); // Get user from Redux
   return (
     <div className="bg-gray-800 text-white h-screen p-5 w-64 flex flex-col">
       <div>
