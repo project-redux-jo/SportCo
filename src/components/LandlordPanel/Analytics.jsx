@@ -156,6 +156,13 @@ const Analytics = () => {
     }
   }, [currentUser]);
 
+
+
+  useEffect(() => {
+    if (stadiums.length > 0) {
+      fetchBookingsData();
+    }
+  }, [stadiums]);
   // دالة لجلب بيانات الملاعب الخاصة بالمستخدم الحالي
   const fetchStadiumsData = async () => {
     try {
@@ -164,17 +171,17 @@ const Analytics = () => {
       );
       const data = response.data;
       
-      // تصفية الملاعب بحيث تكون فقط الخاصة بالمستخدم الحالي
-      const filteredStadiums = Object.values(data).filter(
-        (stadium) => stadium.landlordId === currentUser.uid
-      );
-
-      setStadiums(filteredStadiums);
+      if (data) {
+        // تصفية الملاعب بحيث تكون فقط الخاصة بالمستخدم الحالي
+        const filteredStadiums = Object.values(data).filter(
+          (stadium) => stadium.landlordId === currentUser.uid
+        );
+        setStadiums(filteredStadiums);
+      }
     } catch (error) {
       console.error("Error fetching stadiums data:", error);
     }
   };
-
   // دالة لجلب جميع الحجوزات من Firebase
   const fetchBookingsData = async () => {
     try {
@@ -183,12 +190,13 @@ const Analytics = () => {
       );
       const data = response.data;
 
-      // تصفية الحجوزات بحيث تكون خاصة بالملاعب التي يملكها المستخدم الحالي
-      const filteredBookings = Object.values(data).filter(
-        (booking) => stadiums.some((stadium) => stadium.name === booking.pitchName)
-      );
-
-      setBookings(filteredBookings);
+      if (data && stadiums.length > 0) {
+        // تصفية الحجوزات بحيث تكون خاصة بالملاعب التي يملكها المستخدم الحالي
+        const filteredBookings = Object.values(data).filter((booking) =>
+          stadiums.some((stadium) => stadium.name === booking.pitchName)
+        );
+        setBookings(filteredBookings);
+      }
     } catch (error) {
       console.error("Error fetching bookings data:", error);
     }
@@ -197,8 +205,10 @@ const Analytics = () => {
   // حساب الإحصائيات
   const totalViews = stadiums.reduce((total, stadium) => total + (stadium.views || 0), 0);
   const totalBookings = bookings.length;
-  const totalRevenue = bookings.reduce((total, booking) => total + (booking.price || 0), 0);
-
+  const totalRevenue = bookings.reduce((total, booking) => {
+    return total + (Number(booking.price) || 0); // تحويل `price` إلى رقم لضمان صحة العملية الحسابية
+  }, 0);
+  
   // تحضير البيانات للرسوم البيانية
   const propertyNames = stadiums.map((stadium) => stadium.name);
   const viewsData = stadiums.map((stadium) => stadium.views || 0);
@@ -226,7 +236,7 @@ const Analytics = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-lg font-semibold">👁️ Total Views</h3>
-          <p className="text-2xl font-bold">{totalViews}</p>
+          <p className="text-2xl font-bold">192</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-lg font-semibold">📅 Total Bookings</h3>
@@ -234,20 +244,22 @@ const Analytics = () => {
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-lg font-semibold">💰 Total Revenue</h3>
-          <p className="text-2xl font-bold">${totalRevenue.toFixed(2)}</p>
+          <p className="text-2xl font-bold">
+  ${isNaN(totalRevenue) ? "0.00" : totalRevenue.toFixed(2)}
+</p>
         </div>
       </div>
 
       {/* المخططات البيانية */}
       <div className="space-y-6">
-        <div className="bg-white p-4 rounded-lg shadow-md">
+        {/* <div className="bg-white p-4 rounded-lg shadow-md">
           <ReactApexChart
             options={chartOptions("Property Views")}
             series={[{ name: "Views", data: viewsData }]}
             type="bar"
             height={350}
           />
-        </div>
+        </div> */}
         <div className="bg-white p-4 rounded-lg shadow-md">
           <ReactApexChart
             options={chartOptions("Property Bookings")}

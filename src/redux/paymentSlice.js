@@ -24,7 +24,8 @@ export const { setPaymentData, setError } = paymentSlice.actions;
 
 export const sendPaymentData = (paymentData) => async (dispatch) => {
   try {
-    const response = await axios.post('https://redux-project-791e5-default-rtdb.firebaseio.com/payments.json', paymentData);
+    const dataWithStatus = { ...paymentData, status: 'Approve' };
+    const response = await axios.post('https://redux-project-791e5-default-rtdb.firebaseio.com/payments.json', dataWithStatus);
     dispatch(setPaymentData(response.data));
   } catch (error) {
     dispatch(setError(error.message));

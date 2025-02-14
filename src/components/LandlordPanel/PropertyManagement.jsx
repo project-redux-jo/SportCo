@@ -37,47 +37,91 @@ const PropertyManagement = () => {
   };
 
   // Handle form submission (add or update property)
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const newStadium = {
-        ...formData,
-        available: "No",
-        isPaid: false,
-        status:"Pending",
-    };
-  dispatch(addStaduim(newStadium));
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const newStadium = {
+//         ...formData,
+//         available: "No",
+//         isPaid: false,
+//         status:"Pending",
+//     };
+//   dispatch(addStaduim(newStadium));
 
 
-console.log(FinalStadiums)
+// console.log(FinalStadiums)
    
-try {
-    // **إرسال البيانات إلى Firebase**
-    const response = await axios.post(
-        "https://redux-project-791e5-default-rtdb.firebaseio.com/Stadiums.json",
-        newStadium
-    );
+// try {
+//     // **إرسال البيانات إلى Firebase**
+//     const response = await axios.post(
+//         "https://redux-project-791e5-default-rtdb.firebaseio.com/Stadiums.json",
+//         newStadium
+//     );
 
-    if (response.status === 200) {
-        console.log("✅ الملعب تم حفظه في Firebase:", response.data);
+//     if (response.status === 200) {
+//         console.log("✅ الملعب تم حفظه في Firebase:", response.data);
 
-        // **إضافة الملعب إلى Redux بعد الحفظ**
-        dispatch(addStaduim(newStadium));
-    }
+//         // **إضافة الملعب إلى Redux بعد الحفظ**
+//         dispatch(addStaduim(newStadium));
+//     }
 
-    // **إعادة تعيين النموذج بعد الإضافة**
-    setFormData({
-        name: "",
-        description: "",
-        location: "",
-        price: "",
-        image: "",
-        status: "pending",
-        landlordId: currentUser ? currentUser.uid : "",
-    });
-} catch (error) {
-    console.error("❌ فشل حفظ الملعب في Firebase:", error);
-}
+//     // **إعادة تعيين النموذج بعد الإضافة**
+//     setFormData({
+//         name: "",
+//         description: "",
+//         location: "",
+//         price: "",
+//         image: "",
+//         status: "pending",
+//         landlordId: currentUser ? currentUser.uid : "",
+//     });
+// } catch (error) {
+//     console.error("❌ فشل حفظ الملعب في Firebase:", error);
+// }
+//   };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  // التأكد من وجود المستخدم
+  if (!currentUser || !currentUser.uid) {
+      console.error("❌ لا يوجد مستخدم مسجل.");
+      return;
+  }
+
+  const newStadium = {
+      ...formData,
+      available: "No",
+      isPaid: false,
+      status: "Pending", // يبدأ كـ "قيد الانتظار"
+      landlordId: currentUser.uid, // حفظ معرف المالك
   };
+
+  try {
+      // إرسال البيانات إلى Firebase
+      const response = await axios.post(
+          "https://redux-project-791e5-default-rtdb.firebaseio.com/Stadiums.json",
+          newStadium
+      );
+
+      if (response.status === 200) {
+          console.log("✅ الملعب تم حفظه في Firebase:", response.data);
+      }
+
+      // إعادة تعيين النموذج بعد الإضافة
+      setFormData({
+          name: "",
+          description: "",
+          location: "",
+          price: "",
+          image: "",
+          status: "pending",
+          landlordId: currentUser.uid, // إعادة تعيين المالك أيضًا
+      });
+  } catch (error) {
+      console.error("❌ فشل حفظ الملعب في Firebase:", error);
+  }
+};
+
 
   return (
     <div className="p-6">

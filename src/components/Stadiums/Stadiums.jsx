@@ -64,14 +64,15 @@ dispatch(fetchselectedCourt(stadium))
 
   }
 // console.log(FinalStadiums);
-console.log(selectedStadium);
+// console.log(selectedStadium);
 
 
   const locations = ['All', ...new Set(FinalStadiums.map(stadium => stadium.location))];
   const ava = ['All', ...new Set(FinalStadiums.map(stadium => stadium.available))];
 
   const filteredStadiums = FinalStadiums.filter(stadium => {
-    const matchesSearch = stadium.name.toLowerCase().includes(searchQuery.toLowerCase());
+    // const matchesSearch = stadium.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = typeof stadium?.name === "string" && stadium.name.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesLocation = selectedLocation === 'All' || stadium.location === selectedLocation;
     const matchesPriceRange = priceRange === 'All' || 
       (priceRange === '0-20' && stadium.price <= 20) ||
