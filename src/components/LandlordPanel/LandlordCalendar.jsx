@@ -348,6 +348,7 @@ const LandlordCalendar = () => {
   // جلب الملاعب التي يملكها المالك الحالي
 
   const fetchStadiums = async () => {
+
     try {
       const response = await axios.get(
         `https://redux-project-791e5-default-rtdb.firebaseio.com/Stadiums.json`
@@ -383,6 +384,7 @@ const LandlordCalendar = () => {
       const response = await axios.get(
         `https://redux-project-791e5-default-rtdb.firebaseio.com/payments.json`
       );
+
    
       const data = response.data; 
     
@@ -392,8 +394,10 @@ const LandlordCalendar = () => {
       }
  
       // تصفية الحجوزات حسب ملاعب المالك
+
   
     
+
       const filteredBookings = Object.keys(data)
         .map((key) => ({
           id: key,
@@ -401,7 +405,9 @@ const LandlordCalendar = () => {
         }))
         .filter((booking) =>
           landlordStadiums.some((stadium) => stadium.name === booking.pitchName &&
+
       booking.status === 'Approve' )
+
         );
      
       // تحويل الحجوزات إلى أحداث التقويم
