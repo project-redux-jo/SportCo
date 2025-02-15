@@ -392,7 +392,8 @@ const LandlordCalendar = () => {
       }
  
       // تصفية الحجوزات حسب ملاعب المالك
-
+  
+    
       const filteredBookings = Object.keys(data)
         .map((key) => ({
           id: key,
@@ -400,7 +401,7 @@ const LandlordCalendar = () => {
         }))
         .filter((booking) =>
           landlordStadiums.some((stadium) => stadium.name === booking.pitchName &&
-      booking.status === 'Approve')
+      booking.status === 'Approve' )
         );
      
       // تحويل الحجوزات إلى أحداث التقويم

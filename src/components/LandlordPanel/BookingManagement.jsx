@@ -322,7 +322,7 @@ const BookingManagement = () => {
       );
       const data = response.data;
       if (!data) return;
-
+      
       const landlordStadiums = Object.keys(data)
         .map((key) => ({ id: key, ...data[key] }))
         .filter((stadium) => stadium.landlordId === currentUser?.uid);
@@ -341,11 +341,12 @@ const BookingManagement = () => {
       );
       const data = response.data;
       if (!data) return;
-
+      const today = new Date();
       const filteredBookings = Object.keys(data)
         .map((key) => ({ id: key, ...data[key] }))
         .filter((booking) =>
-          landlordStadiums.some((stadium) => stadium.name === booking.pitchName)
+          landlordStadiums.some((stadium) => stadium.name === booking.pitchName)&&
+        new Date(booking.date) >= today 
         );
 
       setBookings(filteredBookings);

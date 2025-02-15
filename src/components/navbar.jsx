@@ -20,7 +20,7 @@ const Navbar = () => {
             alt="Logo"
             className="w-20 h-20 object-contain"
           />
-          Soccer Co.
+          Sport Co.
         </Link>
 
         {/* Desktop Nav Links */}
