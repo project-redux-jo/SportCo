@@ -1,16 +1,19 @@
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendPaymentData } from '../../redux/paymentSlice';
+import { sendPaymentData, fetchPaymentDataByDate } from '../../redux/paymentSlice';
 import Swal from 'sweetalert2';
-import emailjs from 'emailjs-com'; 
+import emailjs from 'emailjs-com';
 
 function PaymentForm() {
   const user = useSelector((state) => state.auth.user);
+  const paymentData = useSelector((state) => state.payment.paymentData) || {};
   const selectedStadium = useSelector((state) => state.courtInfo.selectedCourt);
-  // const paymentData = useSelector((state) => state.payment.paymentData);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchPaymentDataByDate());
+  }, [dispatch]);
 
   const [formData, setFormData] = useState({
     cardNumber: "",
@@ -53,26 +56,21 @@ function PaymentForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-////////////////////  تعديل محمود
-    // const dispatch = useDispatch();
-    // const existingBookings = useSelector((state) => state.payment.paymentData) || [];
-  
-    // const isAlreadyBooked = existingBookings.some(
-    //   (booking) => booking.date === formData.date && booking.pitchName === selectedStadium.name
-    // );
-  
-    // if (isAlreadyBooked) {
-    //   Swal.fire({
-    //     title: 'Date Already Booked',
-    //     text: 'This court is already booked for the selected date. Please choose another date.',
-    //     icon: 'warning',
-    //     confirmButtonText: 'OK',
-    //   });
-    //   return;
-    // }
-
-
-
+    
+    if (paymentData.data && selectedStadium.name) {
+      const isDateUnavailable = Object.values(paymentData.data).some(
+        (payment) => payment.pitchName === selectedStadium.name && payment.date === formData.date
+      );
+      if (isDateUnavailable) {
+        Swal.fire({
+          title: 'Date Unavailable',
+          text: 'This date is already booked. Please choose another date.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+        return; 
+      }
+    }
 
     if (!validateCardNumber(formData.cardNumber)) {
       Swal.fire({
@@ -135,7 +133,6 @@ function PaymentForm() {
       confirmButtonText: 'OK'
     });
 
-   
     const templateParams = {
       fullName: user?.fullName,
       email: user?.email,
@@ -198,7 +195,7 @@ function PaymentForm() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div>
-                  <label htmlFor="FullName" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="Email" className="block text-sm font-medium text-gray-700 mb-1">
                     Email
                   </label>
                   <input
@@ -226,8 +223,8 @@ function PaymentForm() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="courtName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Court location
+                  <label htmlFor="courtLocation" className="block text-sm font-medium text-gray-700 mb-1">
+                    Court Location
                   </label>
                   <div className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 focus:outline-none transition-colors">
                     {selectedStadium.location}

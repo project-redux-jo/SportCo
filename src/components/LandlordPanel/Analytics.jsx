@@ -203,9 +203,12 @@ const Analytics = () => {
   };
 
   // حساب الإحصائيات
+
+  const validBookings = bookings.filter(booking => booking.status !== "cancelled");
+
   const totalViews = stadiums.reduce((total, stadium) => total + (stadium.views || 0), 0);
-  const totalBookings = bookings.length;
-  const totalRevenue = bookings.reduce((total, booking) => {
+  const totalBookings = validBookings.length;
+  const totalRevenue = validBookings.reduce((total, booking) => {
     return total + (Number(booking.price) || 0); // تحويل `price` إلى رقم لضمان صحة العملية الحسابية
   }, 0);
   
@@ -213,7 +216,7 @@ const Analytics = () => {
   const propertyNames = stadiums.map((stadium) => stadium.name);
   const viewsData = stadiums.map((stadium) => stadium.views || 0);
   const bookingsData = stadiums.map(
-    (stadium) => bookings.filter((booking) => booking.pitchName === stadium.name).length
+    (stadium) => validBookings.filter((booking) => booking.pitchName === stadium.name).length
   );
   const revenueData = stadiums.map(
     (stadium) => bookings
