@@ -748,7 +748,7 @@ const BookingManagement = () => {
     emailjs
       .send(
         'service_d2ht9ao',
-        'template_nb3f9sh', 
+        'template_hhll7hh', 
         templateParams,
         'US6SjJXuTBCISuvZO' 
       )
