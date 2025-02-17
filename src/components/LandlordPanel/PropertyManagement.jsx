@@ -6,7 +6,7 @@ import { fetchStadiums ,fetchselectedCourt,addStaduim} from '../../redux/Staduim
 const PropertyManagement = () => {
  
     const FinalStadiums=useSelector((state)=>state.courtInfo.courts);
-  // Get the current user from Redux store
+  // from Redux store
   const currentUser = useSelector((state) => state.Land.user);
 
   // State to manage properties
@@ -82,9 +82,9 @@ const PropertyManagement = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   
-  // التأكد من وجود المستخدم
+ 
   if (!currentUser || !currentUser.uid) {
-      console.error("❌ لا يوجد مستخدم مسجل.");
+      console.error(" لا يوجد مستخدم مسجل.");
       return;
   }
 
@@ -92,8 +92,8 @@ const handleSubmit = async (e) => {
       ...formData,
       available: "No",
       isPaid: false,
-      status: "Pending", // يبدأ كـ "قيد الانتظار"
-      landlordId: currentUser.uid, // حفظ معرف المالك
+      status: "Pending",
+      landlordId: currentUser.uid,
   };
 
   try {

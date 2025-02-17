@@ -345,7 +345,7 @@ const LandlordCalendar = () => {
     }
   }, [currentUser]);
 
-  // جلب الملاعب التي يملكها المالك الحالي
+ 
 
   const fetchStadiums = async () => {
 
@@ -360,7 +360,7 @@ const LandlordCalendar = () => {
         return;
       }
 
-      // تصفية الملاعب حسب المالك الحالي
+
       const landlordStadiums = Object.keys(data)
         .map((key) => ({
           id: key,
@@ -370,14 +370,13 @@ const LandlordCalendar = () => {
 
       setStadiums(landlordStadiums);
 
-      // جلب الحجوزات بعد تحميل الملاعب
       fetchBookings(landlordStadiums);
     } catch (error) {
       console.error("❌ Error fetching stadiums:", error);
     }
   };
 
-  // جلب الحجوزات الخاصة بملاعب المالك
+  
   
   const fetchBookings = async (landlordStadiums) => {
     try {
@@ -393,7 +392,7 @@ const LandlordCalendar = () => {
         return;
       }
  
-      // تصفية الحجوزات حسب ملاعب المالك
+     
 
   
     
@@ -410,13 +409,13 @@ const LandlordCalendar = () => {
 
         );
      
-      // تحويل الحجوزات إلى أحداث التقويم
+  
   
       const calendarEvents = filteredBookings.map((booking) => ({
         id: booking.id,
         title: `📌 Booked: ${booking.pitchName || "Unknown"}`,
-        start: new Date(booking.date), // فقط استخدام تاريخ الحجز
-        end: new Date(booking.date), // بدون فترة زمنية
+        start: new Date(booking.date), 
+        end: new Date(booking.date), 
         allDay: true,
         status: "booked",
       }));
@@ -427,12 +426,12 @@ const LandlordCalendar = () => {
     }
   };
 
-  // تخصيص نمط الأحداث في التقويم
+ 
   const eventStyleGetter = (event) => {
     let backgroundColor;
 
     if (event.status === "booked") {
-      backgroundColor = "#FF5733"; // أحمر للحجوزات المؤكدة
+      backgroundColor = "#FF5733"; 
     }
 
     return {

@@ -51,12 +51,12 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           {!user ? (
             <>
-              <Link to="/login">
+              <Link to="/LogIn">
                 <button className="bg-[#A3C178] text-[#334D19] px-5 py-2 rounded-lg hover:bg-[#89A15E] transition cursor-pointer">
                   Login
                 </button>
               </Link>
-              <Link to="/signup">
+              <Link to="/SignUp">
                 <button className="bg-[#DDEEB2] text-[#334D19] px-5 py-2 rounded-lg hover:bg-[#C5D994] transition cursor-pointer">
                   Sign up
                 </button>
@@ -122,12 +122,12 @@ const Navbar = () => {
 
           {!user ? (
             <>
-              <Link to="/login">
+              <Link to="/LogIn">
                 <button className="bg-[#A3C178] text-[#334D19] w-full px-5 py-2 rounded-lg hover:bg-[#89A15E] transition">
                   Login
                 </button>
               </Link>
-              <Link to="/signup">
+              <Link to="/SignUp">
                 <button className="bg-[#DDEEB2] text-[#334D19] w-full px-5 py-2 rounded-lg hover:bg-[#C5D994] transition">
                   Sign up
                 </button>

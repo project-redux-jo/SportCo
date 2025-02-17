@@ -9,6 +9,9 @@ const StadiumListings = () => {
   const [selectedListing, setSelectedListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [filterStatus, setFilterStatus] = useState("all");
 
   // Fetch stadium listings from Firebase
   useEffect(() => {
@@ -51,12 +54,63 @@ const StadiumListings = () => {
     setSelectedListing(listing);
   };
 
+  // Filter listings by status
+  const filteredListings = listings.filter(listing => {
+    if (filterStatus === "all") return true;
+    return listing.status.toLowerCase() === filterStatus.toLowerCase();
+  });
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentListings = filteredListings.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="p-6 bg-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Stadium Listings</h2>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {loading && <p className="text-gray-600 mb-4">Loading listings...</p>}
+
+      {/* Filter Dropdown */}
+      <div className="mb-4 flex justify-between items-center">
+        <div>
+          <label htmlFor="filterStatus" className="mr-2 text-gray-700">Filter by Status:</label>
+          <select
+            id="filterStatus"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
+        {/* Items Per Page Dropdown */}
+        <div>
+          <label htmlFor="itemsPerPage" className="mr-2 text-gray-700">Items per page:</label>
+          <select
+            id="itemsPerPage"
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
+      </div>
 
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <table className="min-w-full divide-y divide-gray-200">
@@ -70,7 +124,7 @@ const StadiumListings = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {listings.map((listing) => (
+            {currentListings.map((listing) => (
               <tr key={listing.id}>
                 <td className="px-6 py-4 text-gray-700">{listing.name}</td>
                 <td className="px-6 py-4 text-gray-700">{listing.location}</td>
@@ -105,6 +159,25 @@ const StadiumListings = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-6 flex justify-center">
+        <nav className="inline-flex rounded-md shadow-sm">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-4 py-2 border ${
+                currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+              } border-gray-300 rounded-md mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </nav>
       </div>
 
       {/* Preview Modal */}
