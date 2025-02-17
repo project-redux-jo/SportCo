@@ -108,14 +108,14 @@ const UserProfile = () => {
           )}
         </div>
 
-        <div className="mt-8 w-full">
+        {/* <div className="mt-8 w-full">
           <h3 className="text-xl font-semibold text-gray-800 flex items-center">
             <Calendar className="mr-2 text-green-500" /> Bookings
           </h3>
           <p className="text-gray-500 mt-2 text-center">
             (Booking details not yet implemented)
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

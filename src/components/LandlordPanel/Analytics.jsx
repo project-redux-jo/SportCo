@@ -141,14 +141,14 @@ import ReactApexChart from "react-apexcharts";
 import axios from "axios";
 
 const Analytics = () => {
-  // جلب المستخدم الحالي من Redux
+
   const currentUser = useSelector((state) => state.Land.user);
   
-  // حالة تخزين البيانات
+
   const [stadiums, setStadiums] = useState([]);
   const [bookings, setBookings] = useState([]);
 
-  // جلب بيانات الملاعب عند تحميل الصفحة
+  
   useEffect(() => {
     if (currentUser) {
       fetchStadiumsData();
@@ -163,7 +163,7 @@ const Analytics = () => {
       fetchBookingsData();
     }
   }, [stadiums]);
-  // دالة لجلب بيانات الملاعب الخاصة بالمستخدم الحالي
+ 
   const fetchStadiumsData = async () => {
     try {
       const response = await axios.get(
@@ -172,7 +172,7 @@ const Analytics = () => {
       const data = response.data;
       
       if (data) {
-        // تصفية الملاعب بحيث تكون فقط الخاصة بالمستخدم الحالي
+        
         const filteredStadiums = Object.values(data).filter(
           (stadium) => stadium.landlordId === currentUser.uid
         );
@@ -182,7 +182,7 @@ const Analytics = () => {
       console.error("Error fetching stadiums data:", error);
     }
   };
-  // دالة لجلب جميع الحجوزات من Firebase
+
   const fetchBookingsData = async () => {
     try {
       const response = await axios.get(
@@ -191,7 +191,7 @@ const Analytics = () => {
       const data = response.data;
 
       if (data && stadiums.length > 0) {
-        // تصفية الحجوزات بحيث تكون خاصة بالملاعب التي يملكها المستخدم الحالي
+     
         const filteredBookings = Object.values(data).filter((booking) =>
           stadiums.some((stadium) => stadium.name === booking.pitchName)
         );
@@ -202,17 +202,17 @@ const Analytics = () => {
     }
   };
 
-  // حساب الإحصائيات
+  //  الإحصائيات
 
   const validBookings = bookings.filter(booking => booking.status !== "cancelled");
 
   const totalViews = stadiums.reduce((total, stadium) => total + (stadium.views || 0), 0);
   const totalBookings = validBookings.length;
   const totalRevenue = validBookings.reduce((total, booking) => {
-    return total + (Number(booking.price) || 0); // تحويل `price` إلى رقم لضمان صحة العملية الحسابية
+    return total + (Number(booking.price) || 0); 
   }, 0);
   
-  // تحضير البيانات للرسوم البيانية
+  
   const propertyNames = stadiums.map((stadium) => stadium.name);
   const viewsData = stadiums.map((stadium) => stadium.views || 0);
   const bookingsData = stadiums.map(
@@ -224,7 +224,7 @@ const Analytics = () => {
       .reduce((total, booking) => total + (booking.price || 0), 0)
   );
 
-  // إعدادات المخططات البيانية
+ 
   const chartOptions = (title) => ({
     chart: { type: "bar" },
     xaxis: { categories: propertyNames },
@@ -235,7 +235,7 @@ const Analytics = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">📊 Analytics Dashboard</h1>
 
-      {/* الإحصائيات الرئيسية */}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow-md text-center">
           <h3 className="text-lg font-semibold">👁️ Total Views</h3>

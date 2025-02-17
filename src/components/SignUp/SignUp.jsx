@@ -94,91 +94,172 @@ const SignUp = () => {
     });
   };
 
-  return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
-    <div className="group flex w-[50%] h-[80%] rounded-xl overflow-hidden shadow-lg border border-gray-200
-         hover:border-green-500 hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-         style={{ boxShadow: '10px 0px 10px #97e297' }}>
-        {/* Image Section */}
-        <div
-          className="w-[45%] bg-cover bg-center"
-          style={{ backgroundImage: 'url("/img/imagelogin.png")' }}
-        />
+//   return (
+//     <div className="flex h-screen items-center justify-center bg-gray-50">
+//     <div className="group flex w-[50%] h-[80%] rounded-xl overflow-hidden shadow-lg border border-gray-200
+//          hover:border-green-500 hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+//          style={{ boxShadow: '10px 0px 10px #97e297' }}>
+//         {/* Image Section */}
+//         <div
+//           className="w-[45%] bg-cover bg-center"
+//           style={{ backgroundImage: 'url("/img/imagelogin.png")' }}
+//         />
 
-        {/* Form Section */}
-        <div className="w-[55%] bg-white flex items-center justify-center p-8">
-          <div className="w-full max-w-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+//         {/* Form Section */}
+//         <div className="w-[55%] bg-white flex items-center justify-center p-8">
+//           <div className="w-full max-w-md">
+//             <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
 
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="Full Name"
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              <input
-                type="text"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone"
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Password"
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm Password"
-                className="w-full px-4 py-2 border rounded-lg"
-              />
- <div className="text-start">
+//             <form className="space-y-4" onSubmit={handleSubmit}>
+//               <input
+//                 type="text"
+//                 name="fullName"
+//                 value={formData.fullName}
+//                 onChange={handleChange}
+//                 placeholder="Full Name"
+//                 className="w-full px-4 py-2 border rounded-lg"
+//               />
+//               <input
+//                 type="email"
+//                 name="email"
+//                 value={formData.email}
+//                 onChange={handleChange}
+//                 placeholder="Email"
+//                 className="w-full px-4 py-2 border rounded-lg"
+//               />
+//               <input
+//                 type="text"
+//                 name="phone"
+//                 value={formData.phone}
+//                 onChange={handleChange}
+//                 placeholder="Phone"
+//                 className="w-full px-4 py-2 border rounded-lg"
+//               />
+//               <input
+//                 type="password"
+//                 name="password"
+//                 value={formData.password}
+//                 onChange={handleChange}
+//                 placeholder="Password"
+//                 className="w-full px-4 py-2 border rounded-lg"
+//               />
+//               <input
+//                 type="password"
+//                 name="confirmPassword"
+//                 value={formData.confirmPassword}
+//                 onChange={handleChange}
+//                 placeholder="Confirm Password"
+//                 className="w-full px-4 py-2 border rounded-lg"
+//               />
+//  <div className="text-start">
              
-                <a href="/LogIn" className="text-sm text-gray-500 hover:text-green-500">
-                   <span>Already Have an Account?</span>
-                </a>
-              </div>
-              <button
-                type="submit"
-                className="w-full py-2 bg-green-500 text-white rounded-lg"
-                disabled={loading}
-              >
-                {loading ? "Signing Up..." : "Sign Up"}
-              </button>
+//                 <a href="/LogIn" className="text-sm text-gray-500 hover:text-green-500">
+//                    <span>Already Have an Account?</span>
+//                 </a>
+//               </div>
+//               <button
+//                 type="submit"
+//                 className="w-full py-2 bg-green-500 text-white rounded-lg"
+//                 disabled={loading}
+//               >
+//                 {loading ? "Signing Up..." : "Sign Up"}
+//               </button>
 
-              <button
-                type="button"
-                onClick={handleGoogleSignUp}
-                className="w-full py-2 border rounded-lg"
-              >
-                <FcGoogle className="inline text-2xl mr-2" /> Sign up with
-                Google
-              </button>
-            </form>
-          </div>
+//               <button
+//                 type="button"
+//                 onClick={handleGoogleSignUp}
+//                 className="w-full py-2 border rounded-lg"
+//               >
+//                 <FcGoogle className="inline text-2xl mr-2" /> Sign up with
+//                 Google
+//               </button>
+//             </form>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+return (
+  <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+    <div className="group flex w-full max-w-4xl h-auto md:h-[80%] rounded-xl overflow-hidden shadow-lg border border-gray-200
+         hover:border-green-500 hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+      {/* Image Section */}
+      <div
+        className="hidden md:block md:w-1/2 bg-cover bg-center"
+        style={{ backgroundImage: 'url("/img/imagelogin.png")' }}
+      />
+
+      {/* Form Section */}
+      <div className="w-full md:w-1/2 bg-white flex items-center justify-center p-6 sm:p-8">
+        <div className="w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="Full Name"
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone"
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm Password"
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <div className="text-start">
+              <a href="/LogIn" className="text-sm text-gray-500 hover:text-green-500">
+                <span>Already Have an Account?</span>
+              </a>
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-green-500 text-white rounded-lg"
+              disabled={loading}
+            >
+              {loading ? "Signing Up..." : "Sign Up"}
+            </button>
+            <button
+              type="button"
+              onClick={handleGoogleSignUp}
+              className="w-full py-2 border rounded-lg flex items-center justify-center"
+            >
+              <FcGoogle className="text-2xl mr-2" /> Sign up with Google
+            </button>
+          </form>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default SignUp;

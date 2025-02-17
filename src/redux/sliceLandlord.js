@@ -3,44 +3,44 @@ import { auth, database, createUserWithEmailAndPassword, ref, set } from "../fir
 import Swal from "sweetalert2";
 
 
-export const registerLandlord = ({ fullName, email, phone, location, profileImagePath, extraImagePath }) => async (dispatch) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, "defaultPassword123");
-    const user = userCredential.user;
+// export const registerLandlord = ({ fullName, email, phone, location, profileImagePath, extraImagePath }) => async (dispatch) => {
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(auth, email, "defaultPassword123");
+//     const user = userCredential.user;
 
  
-    await set(ref(database, `landlords/${user.uid}`), {
-      fullName,
-      email,
-      phone,
-      location,
-      profileImagePath,  
-      extraImagePath,    
+//     await set(ref(database, `landlords/${user.uid}`), {
+//       fullName,
+//       email,
+//       phone,
+//       location,
+//       profileImagePath,  
+//       extraImagePath,    
       
-    });
+//     });
 
-    dispatch({
-      type: "auth/registerLandlordSuccess",
-      payload: { uid: user.uid, fullName, email, phone, location, profileImagePath, extraImagePath },
-    });
+//     dispatch({
+//       type: "auth/registerLandlordSuccess",
+//       payload: { uid: user.uid, fullName, email, phone, location, profileImagePath, extraImagePath },
+//     });
 
-    Swal.fire({
-      title: "Registration Successful!",
-      text: "Redirecting to dashboard...",
-      icon: "success",
-      timer: 2000,
-      showConfirmButton: false,
-    });
+//     Swal.fire({
+//       title: "Registration Successful!",
+//       text: "Redirecting to dashboard...",
+//       icon: "success",
+//       timer: 2000,
+//       showConfirmButton: false,
+//     });
 
-  } catch (error) {
-    Swal.fire("Error!", error.message, "error");
+//   } catch (error) {
+//     Swal.fire("Error!", error.message, "error");
 
-    dispatch({
-      type: "auth/registerLandlordFailure",
-      payload: error.message,
-    });
-  }
-};
+//     dispatch({
+//       type: "auth/registerLandlordFailure",
+//       payload: error.message,
+//     });
+//   }
+// };
 
 const storedUser = JSON.parse(localStorage.getItem("user")) || null;
 const authSlice = createSlice({
@@ -80,6 +80,47 @@ const authSlice = createSlice({
     },
   },
 });
+
+
+
+export const registerLandlord = ({ fullName, email, phone, location, profileImagePath, extraImagePath }) => async (dispatch) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, "defaultPassword123");
+    const user = userCredential.user;
+
+ 
+    await set(ref(database, `landlords/${user.uid}`), {
+      fullName,
+      email,
+      phone,
+      location,
+      profileImagePath,  
+      extraImagePath,    
+      
+    });
+
+    dispatch({
+      type: "auth/registerLandlordSuccess",
+      payload: { uid: user.uid, fullName, email, phone, location, profileImagePath, extraImagePath },
+    });
+
+    Swal.fire({
+      title: "Registration Successful!",
+      text: "Redirecting to dashboard...",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+
+  } catch (error) {
+    Swal.fire("Error!", error.message, "error");
+
+    dispatch({
+      type: "auth/registerLandlordFailure",
+      payload: error.message,
+    });
+  }
+};
 export const { loginSuccess, loginFailure, logout } = authSlice.actions;
 export const { registerLandlordSuccess, registerLandlordFailure } = authSlice.actions;
 
